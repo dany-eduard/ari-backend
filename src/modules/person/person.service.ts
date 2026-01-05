@@ -2,6 +2,7 @@ import { Injectable, ConflictException } from '@nestjs/common';
 import { Prisma } from '../../generated/prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { PersonDto } from './dto/person.dto';
+import { formatName } from 'src/utils/formatName';
 
 @Injectable()
 export class PersonService {
@@ -9,6 +10,8 @@ export class PersonService {
 
   async create(data: PersonDto) {
     try {
+      if (data.first_name) data.first_name = formatName(data.first_name);
+      if (data.last_name) data.last_name = formatName(data.last_name);
       if (data.birth_date) data.birth_date = new Date(data.birth_date);
       if (data.baptism_date) data.baptism_date = new Date(data.baptism_date);
       return await this.prisma.person.create({ data });
@@ -41,6 +44,8 @@ export class PersonService {
 
   async update(id: number, data: PersonDto) {
     try {
+      if (data.first_name) data.first_name = formatName(data.first_name);
+      if (data.last_name) data.last_name = formatName(data.last_name);
       if (data.birth_date) data.birth_date = new Date(data.birth_date);
       if (data.baptism_date) data.baptism_date = new Date(data.baptism_date);
       return await this.prisma.person.update({ where: { id }, data });

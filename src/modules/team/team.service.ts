@@ -1,12 +1,14 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { TeamDto } from './dto/team.dto';
+import { formatName } from 'src/utils/formatName';
 
 @Injectable()
 export class TeamService {
   constructor(private prisma: PrismaService) {}
 
   create(data: TeamDto) {
+    if (data.name) data.name = formatName(data.name);
     return this.prisma.team.create({ data });
   }
 
@@ -19,6 +21,7 @@ export class TeamService {
   }
 
   update(id: number, data: TeamDto) {
+    if (data.name) data.name = formatName(data.name);
     return this.prisma.team.update({ where: { id }, data });
   }
 
