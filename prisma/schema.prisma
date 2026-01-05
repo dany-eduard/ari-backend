@@ -60,6 +60,7 @@ model Person {
   baptism_date    DateTime?
   sex             Sex
   number_phone    String?
+  is_active       Boolean   @default(true)
 
   is_elder               Boolean @default(false)
   is_ministerial_servant Boolean @default(false)

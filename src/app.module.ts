@@ -8,6 +8,7 @@ import { CongregationModule } from './modules/congregation/congregation.module';
 import { TeamModule } from './modules/team/team.module';
 import { PersonModule } from './modules/person/person.module';
 import { PublisherReportModule } from './modules/publisher-report/publisher-report.module';
+import { ReportsModule } from './modules/reports/reports.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { PublisherReportModule } from './modules/publisher-report/publisher-repo
     TeamModule,
     PersonModule,
     PublisherReportModule,
+    ReportsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

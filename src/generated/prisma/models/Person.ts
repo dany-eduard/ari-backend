@@ -48,6 +48,7 @@ export type PersonMinAggregateOutputType = {
   baptism_date: Date | null
   sex: $Enums.Sex | null
   number_phone: string | null
+  is_active: boolean | null
   is_elder: boolean | null
   is_ministerial_servant: boolean | null
   is_regular_pioneer: boolean | null
@@ -67,6 +68,7 @@ export type PersonMaxAggregateOutputType = {
   baptism_date: Date | null
   sex: $Enums.Sex | null
   number_phone: string | null
+  is_active: boolean | null
   is_elder: boolean | null
   is_ministerial_servant: boolean | null
   is_regular_pioneer: boolean | null
@@ -86,6 +88,7 @@ export type PersonCountAggregateOutputType = {
   baptism_date: number
   sex: number
   number_phone: number
+  is_active: number
   is_elder: number
   is_ministerial_servant: number
   is_regular_pioneer: number
@@ -119,6 +122,7 @@ export type PersonMinAggregateInputType = {
   baptism_date?: true
   sex?: true
   number_phone?: true
+  is_active?: true
   is_elder?: true
   is_ministerial_servant?: true
   is_regular_pioneer?: true
@@ -138,6 +142,7 @@ export type PersonMaxAggregateInputType = {
   baptism_date?: true
   sex?: true
   number_phone?: true
+  is_active?: true
   is_elder?: true
   is_ministerial_servant?: true
   is_regular_pioneer?: true
@@ -157,6 +162,7 @@ export type PersonCountAggregateInputType = {
   baptism_date?: true
   sex?: true
   number_phone?: true
+  is_active?: true
   is_elder?: true
   is_ministerial_servant?: true
   is_regular_pioneer?: true
@@ -263,6 +269,7 @@ export type PersonGroupByOutputType = {
   baptism_date: Date | null
   sex: $Enums.Sex
   number_phone: string | null
+  is_active: boolean
   is_elder: boolean
   is_ministerial_servant: boolean
   is_regular_pioneer: boolean
@@ -305,6 +312,7 @@ export type PersonWhereInput = {
   baptism_date?: Prisma.DateTimeNullableFilter<"Person"> | Date | string | null
   sex?: Prisma.EnumSexFilter<"Person"> | $Enums.Sex
   number_phone?: Prisma.StringNullableFilter<"Person"> | string | null
+  is_active?: Prisma.BoolFilter<"Person"> | boolean
   is_elder?: Prisma.BoolFilter<"Person"> | boolean
   is_ministerial_servant?: Prisma.BoolFilter<"Person"> | boolean
   is_regular_pioneer?: Prisma.BoolFilter<"Person"> | boolean
@@ -327,6 +335,7 @@ export type PersonOrderByWithRelationInput = {
   baptism_date?: Prisma.SortOrderInput | Prisma.SortOrder
   sex?: Prisma.SortOrder
   number_phone?: Prisma.SortOrderInput | Prisma.SortOrder
+  is_active?: Prisma.SortOrder
   is_elder?: Prisma.SortOrder
   is_ministerial_servant?: Prisma.SortOrder
   is_regular_pioneer?: Prisma.SortOrder
@@ -353,6 +362,7 @@ export type PersonWhereUniqueInput = Prisma.AtLeast<{
   baptism_date?: Prisma.DateTimeNullableFilter<"Person"> | Date | string | null
   sex?: Prisma.EnumSexFilter<"Person"> | $Enums.Sex
   number_phone?: Prisma.StringNullableFilter<"Person"> | string | null
+  is_active?: Prisma.BoolFilter<"Person"> | boolean
   is_elder?: Prisma.BoolFilter<"Person"> | boolean
   is_ministerial_servant?: Prisma.BoolFilter<"Person"> | boolean
   is_regular_pioneer?: Prisma.BoolFilter<"Person"> | boolean
@@ -375,6 +385,7 @@ export type PersonOrderByWithAggregationInput = {
   baptism_date?: Prisma.SortOrderInput | Prisma.SortOrder
   sex?: Prisma.SortOrder
   number_phone?: Prisma.SortOrderInput | Prisma.SortOrder
+  is_active?: Prisma.SortOrder
   is_elder?: Prisma.SortOrder
   is_ministerial_servant?: Prisma.SortOrder
   is_regular_pioneer?: Prisma.SortOrder
@@ -402,6 +413,7 @@ export type PersonScalarWhereWithAggregatesInput = {
   baptism_date?: Prisma.DateTimeNullableWithAggregatesFilter<"Person"> | Date | string | null
   sex?: Prisma.EnumSexWithAggregatesFilter<"Person"> | $Enums.Sex
   number_phone?: Prisma.StringNullableWithAggregatesFilter<"Person"> | string | null
+  is_active?: Prisma.BoolWithAggregatesFilter<"Person"> | boolean
   is_elder?: Prisma.BoolWithAggregatesFilter<"Person"> | boolean
   is_ministerial_servant?: Prisma.BoolWithAggregatesFilter<"Person"> | boolean
   is_regular_pioneer?: Prisma.BoolWithAggregatesFilter<"Person"> | boolean
@@ -418,6 +430,7 @@ export type PersonCreateInput = {
   baptism_date?: Date | string | null
   sex: $Enums.Sex
   number_phone?: string | null
+  is_active?: boolean
   is_elder?: boolean
   is_ministerial_servant?: boolean
   is_regular_pioneer?: boolean
@@ -440,6 +453,7 @@ export type PersonUncheckedCreateInput = {
   baptism_date?: Date | string | null
   sex: $Enums.Sex
   number_phone?: string | null
+  is_active?: boolean
   is_elder?: boolean
   is_ministerial_servant?: boolean
   is_regular_pioneer?: boolean
@@ -457,6 +471,7 @@ export type PersonUpdateInput = {
   baptism_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   number_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_elder?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_ministerial_servant?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_regular_pioneer?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -479,6 +494,7 @@ export type PersonUncheckedUpdateInput = {
   baptism_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   number_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_elder?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_ministerial_servant?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_regular_pioneer?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -499,6 +515,7 @@ export type PersonCreateManyInput = {
   baptism_date?: Date | string | null
   sex: $Enums.Sex
   number_phone?: string | null
+  is_active?: boolean
   is_elder?: boolean
   is_ministerial_servant?: boolean
   is_regular_pioneer?: boolean
@@ -515,6 +532,7 @@ export type PersonUpdateManyMutationInput = {
   baptism_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   number_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_elder?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_ministerial_servant?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_regular_pioneer?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -534,6 +552,7 @@ export type PersonUncheckedUpdateManyInput = {
   baptism_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   number_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_elder?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_ministerial_servant?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_regular_pioneer?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -571,6 +590,7 @@ export type PersonCountOrderByAggregateInput = {
   baptism_date?: Prisma.SortOrder
   sex?: Prisma.SortOrder
   number_phone?: Prisma.SortOrder
+  is_active?: Prisma.SortOrder
   is_elder?: Prisma.SortOrder
   is_ministerial_servant?: Prisma.SortOrder
   is_regular_pioneer?: Prisma.SortOrder
@@ -596,6 +616,7 @@ export type PersonMaxOrderByAggregateInput = {
   baptism_date?: Prisma.SortOrder
   sex?: Prisma.SortOrder
   number_phone?: Prisma.SortOrder
+  is_active?: Prisma.SortOrder
   is_elder?: Prisma.SortOrder
   is_ministerial_servant?: Prisma.SortOrder
   is_regular_pioneer?: Prisma.SortOrder
@@ -615,6 +636,7 @@ export type PersonMinOrderByAggregateInput = {
   baptism_date?: Prisma.SortOrder
   sex?: Prisma.SortOrder
   number_phone?: Prisma.SortOrder
+  is_active?: Prisma.SortOrder
   is_elder?: Prisma.SortOrder
   is_ministerial_servant?: Prisma.SortOrder
   is_regular_pioneer?: Prisma.SortOrder
@@ -756,6 +778,7 @@ export type PersonCreateWithoutCongregationInput = {
   baptism_date?: Date | string | null
   sex: $Enums.Sex
   number_phone?: string | null
+  is_active?: boolean
   is_elder?: boolean
   is_ministerial_servant?: boolean
   is_regular_pioneer?: boolean
@@ -776,6 +799,7 @@ export type PersonUncheckedCreateWithoutCongregationInput = {
   baptism_date?: Date | string | null
   sex: $Enums.Sex
   number_phone?: string | null
+  is_active?: boolean
   is_elder?: boolean
   is_ministerial_servant?: boolean
   is_regular_pioneer?: boolean
@@ -825,6 +849,7 @@ export type PersonScalarWhereInput = {
   baptism_date?: Prisma.DateTimeNullableFilter<"Person"> | Date | string | null
   sex?: Prisma.EnumSexFilter<"Person"> | $Enums.Sex
   number_phone?: Prisma.StringNullableFilter<"Person"> | string | null
+  is_active?: Prisma.BoolFilter<"Person"> | boolean
   is_elder?: Prisma.BoolFilter<"Person"> | boolean
   is_ministerial_servant?: Prisma.BoolFilter<"Person"> | boolean
   is_regular_pioneer?: Prisma.BoolFilter<"Person"> | boolean
@@ -841,6 +866,7 @@ export type PersonCreateWithoutTeamInput = {
   baptism_date?: Date | string | null
   sex: $Enums.Sex
   number_phone?: string | null
+  is_active?: boolean
   is_elder?: boolean
   is_ministerial_servant?: boolean
   is_regular_pioneer?: boolean
@@ -861,6 +887,7 @@ export type PersonUncheckedCreateWithoutTeamInput = {
   baptism_date?: Date | string | null
   sex: $Enums.Sex
   number_phone?: string | null
+  is_active?: boolean
   is_elder?: boolean
   is_ministerial_servant?: boolean
   is_regular_pioneer?: boolean
@@ -904,6 +931,7 @@ export type PersonCreateWithoutReportsInput = {
   baptism_date?: Date | string | null
   sex: $Enums.Sex
   number_phone?: string | null
+  is_active?: boolean
   is_elder?: boolean
   is_ministerial_servant?: boolean
   is_regular_pioneer?: boolean
@@ -925,6 +953,7 @@ export type PersonUncheckedCreateWithoutReportsInput = {
   baptism_date?: Date | string | null
   sex: $Enums.Sex
   number_phone?: string | null
+  is_active?: boolean
   is_elder?: boolean
   is_ministerial_servant?: boolean
   is_regular_pioneer?: boolean
@@ -957,6 +986,7 @@ export type PersonUpdateWithoutReportsInput = {
   baptism_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   number_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_elder?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_ministerial_servant?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_regular_pioneer?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -978,6 +1008,7 @@ export type PersonUncheckedUpdateWithoutReportsInput = {
   baptism_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   number_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_elder?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_ministerial_servant?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_regular_pioneer?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -996,6 +1027,7 @@ export type PersonCreateManyCongregationInput = {
   baptism_date?: Date | string | null
   sex: $Enums.Sex
   number_phone?: string | null
+  is_active?: boolean
   is_elder?: boolean
   is_ministerial_servant?: boolean
   is_regular_pioneer?: boolean
@@ -1012,6 +1044,7 @@ export type PersonUpdateWithoutCongregationInput = {
   baptism_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   number_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_elder?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_ministerial_servant?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_regular_pioneer?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1032,6 +1065,7 @@ export type PersonUncheckedUpdateWithoutCongregationInput = {
   baptism_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   number_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_elder?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_ministerial_servant?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_regular_pioneer?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1051,6 +1085,7 @@ export type PersonUncheckedUpdateManyWithoutCongregationInput = {
   baptism_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   number_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_elder?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_ministerial_servant?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_regular_pioneer?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1069,6 +1104,7 @@ export type PersonCreateManyTeamInput = {
   baptism_date?: Date | string | null
   sex: $Enums.Sex
   number_phone?: string | null
+  is_active?: boolean
   is_elder?: boolean
   is_ministerial_servant?: boolean
   is_regular_pioneer?: boolean
@@ -1085,6 +1121,7 @@ export type PersonUpdateWithoutTeamInput = {
   baptism_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   number_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_elder?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_ministerial_servant?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_regular_pioneer?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1105,6 +1142,7 @@ export type PersonUncheckedUpdateWithoutTeamInput = {
   baptism_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   number_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_elder?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_ministerial_servant?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_regular_pioneer?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1124,6 +1162,7 @@ export type PersonUncheckedUpdateManyWithoutTeamInput = {
   baptism_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sex?: Prisma.EnumSexFieldUpdateOperationsInput | $Enums.Sex
   number_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_elder?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_ministerial_servant?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_regular_pioneer?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1174,6 +1213,7 @@ export type PersonSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   baptism_date?: boolean
   sex?: boolean
   number_phone?: boolean
+  is_active?: boolean
   is_elder?: boolean
   is_ministerial_servant?: boolean
   is_regular_pioneer?: boolean
@@ -1197,6 +1237,7 @@ export type PersonSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   baptism_date?: boolean
   sex?: boolean
   number_phone?: boolean
+  is_active?: boolean
   is_elder?: boolean
   is_ministerial_servant?: boolean
   is_regular_pioneer?: boolean
@@ -1218,6 +1259,7 @@ export type PersonSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   baptism_date?: boolean
   sex?: boolean
   number_phone?: boolean
+  is_active?: boolean
   is_elder?: boolean
   is_ministerial_servant?: boolean
   is_regular_pioneer?: boolean
@@ -1239,6 +1281,7 @@ export type PersonSelectScalar = {
   baptism_date?: boolean
   sex?: boolean
   number_phone?: boolean
+  is_active?: boolean
   is_elder?: boolean
   is_ministerial_servant?: boolean
   is_regular_pioneer?: boolean
@@ -1248,7 +1291,7 @@ export type PersonSelectScalar = {
   is_anointed?: boolean
 }
 
-export type PersonOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "congregation_id" | "team_id" | "first_name" | "last_name" | "birth_date" | "baptism_date" | "sex" | "number_phone" | "is_elder" | "is_ministerial_servant" | "is_regular_pioneer" | "is_special_pioneer" | "is_field_missionary" | "is_other_sheep" | "is_anointed", ExtArgs["result"]["person"]>
+export type PersonOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "congregation_id" | "team_id" | "first_name" | "last_name" | "birth_date" | "baptism_date" | "sex" | "number_phone" | "is_active" | "is_elder" | "is_ministerial_servant" | "is_regular_pioneer" | "is_special_pioneer" | "is_field_missionary" | "is_other_sheep" | "is_anointed", ExtArgs["result"]["person"]>
 export type PersonInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   congregation?: boolean | Prisma.CongregationDefaultArgs<ExtArgs>
   team?: boolean | Prisma.TeamDefaultArgs<ExtArgs>
@@ -1281,6 +1324,7 @@ export type $PersonPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     baptism_date: Date | null
     sex: $Enums.Sex
     number_phone: string | null
+    is_active: boolean
     is_elder: boolean
     is_ministerial_servant: boolean
     is_regular_pioneer: boolean
@@ -1723,6 +1767,7 @@ export interface PersonFieldRefs {
   readonly baptism_date: Prisma.FieldRef<"Person", 'DateTime'>
   readonly sex: Prisma.FieldRef<"Person", 'Sex'>
   readonly number_phone: Prisma.FieldRef<"Person", 'String'>
+  readonly is_active: Prisma.FieldRef<"Person", 'Boolean'>
   readonly is_elder: Prisma.FieldRef<"Person", 'Boolean'>
   readonly is_ministerial_servant: Prisma.FieldRef<"Person", 'Boolean'>
   readonly is_regular_pioneer: Prisma.FieldRef<"Person", 'Boolean'>

@@ -857,6 +857,7 @@ export const PersonScalarFieldEnum = {
   baptism_date: 'baptism_date',
   sex: 'sex',
   number_phone: 'number_phone',
+  is_active: 'is_active',
   is_elder: 'is_elder',
   is_ministerial_servant: 'is_ministerial_servant',
   is_regular_pioneer: 'is_regular_pioneer',

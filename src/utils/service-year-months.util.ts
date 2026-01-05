@@ -25,6 +25,10 @@ export class ServiceYearMonths {
     ];
   }
 
+  get monthsOrder(): number[] {
+    return [9, 10, 11, 12, 1, 2, 3, 4, 5, 6, 7, 8];
+  }
+
   getServiceYear(month: number): number {
     if (month >= 9) return this.currentYear + 1;
     return this.currentYear;

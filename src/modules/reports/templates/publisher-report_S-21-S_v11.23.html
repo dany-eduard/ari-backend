@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Registro de Publicador - {{name}} {{serviceYear}}</title>
+
+    <style>
+        /* ===== CONFIGURACIÓN PDF ===== */
+        @page {
+            size: A4;
+            margin: 12mm 4mm;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            color: #000;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 16px;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== CAMPOS SUPERIORES ===== */
+        .row {
+            width: 100%;
+            margin-bottom: 6px;
+        }
+
+        .input-wrapper {
+            display: inline-block;
+        }
+
+        .label {
+            display: inline-block;
+            font-weight: bold;
+        }
+
+        .line {
+            display: inline-block;
+            border-bottom: 1px solid #000;
+            height: 14px;
+            vertical-align: bottom;
+        }
+
+        .w-60 {
+            width: 60mm;
+        }
+
+        .w-80 {
+            width: 80mm;
+        }
+
+        .w-83 {
+            width: 83mm;
+        }
+
+        .w-100 {
+            width: 100mm;
+        }
+
+        /* ===== CHECKBOX ===== */
+        .checkbox {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border: 1px solid #000;
+            margin-right: 4px;
+            vertical-align: middle;
+        }
+
+        .checked::after {
+            content: "✔";
+            font-size: 12px;
+            position: relative;
+            top: -2px;
+            left: 1px;
+        }
+
+        .cb-group {
+            margin-right: 10px;
+            white-space: nowrap;
+        }
+
+        /* ===== TABLA ===== */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #000;
+            padding: 3px;
+            vertical-align: middle;
+        }
+
+        th {
+            text-align: center;
+            font-size: 12px;
+        }
+
+        td {
+            height: 18px;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .month {
+            width: 18%;
+        }
+
+        .participated {
+            width: 16%;
+        }
+
+        .bible_courses {
+            width: 13%;
+        }
+
+        .is_auxiliary_pioneer {
+            width: 13%;
+        }
+
+        .hours {
+            width: 16%;
+        }
+
+        .notes {
+            width: 24%;
+        }
+
+        .total-row td {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>REGISTRO DE PUBLICADOR DE LA CONGREGACIÓN</h1>
+
+    <!-- ===== DATOS PERSONALES ===== -->
+    <div class="row">
+        <span class="label"><strong>Nombre:</strong></span>
+        <span class="line w-100" style="width: 90%;">{{name}}</span>
+    </div>
+
+    <div class="row">
+        <div style="width: 70%;" class="input-wrapper">
+            <span class="label"><strong>Fecha de nacimiento:</strong></span>
+            <span class="line w-80">{{birthDate}}</span>
+        </div>
+
+        <span class="cb-group"><span class="checkbox {{checked isMale}}"></span>Hombre</span>
+        <span class="cb-group"><span class="checkbox {{checked isFemale}}"></span>Mujer</span>
+    </div>
+
+    <div class="row">
+        <div style="width: 70%;" class="input-wrapper">
+            <span class="label"><strong>Fecha de bautismo:</strong></span>
+            <span class="line w-83">{{baptismDate}}</span>
+        </div>
+
+        <span class="cb-group"><span class="checkbox {{checked isOther}}"></span>Otras ovejas</span>
+        <span class="cb-group"><span class="checkbox {{checked isOrdained}}"></span>Ungido</span>
+    </div>
+
+    <!-- ===== CHECKBOX ===== -->
+    <div class="row">
+        <span class="cb-group"><span class="checkbox {{checked isElder}}"></span>Anciano</span>
+        <span class="cb-group"><span class="checkbox {{checked isMinister}}"></span>Siervo ministerial</span>
+        <span class="cb-group"><span class="checkbox {{checked isRegular}}"></span>Precursor regular</span>
+        <span class="cb-group"><span class="checkbox {{checked isSpecial}}"></span>Precursor especial</span>
+        <span class="cb-group"><span class="checkbox {{checked isMissionary}}"></span>Misionero que sirve en el
+            campo</span>
+    </div>
+
+    <!-- ===== TABLA PRINCIPAL ===== -->
+    <table>
+        <thead>
+            <tr>
+                <th class="month">Año de servicio<br><span style="font-weight: normal;">{{serviceYear}}</span></th>
+                <th class="participated">Participación<br>en el ministerio</th>
+                <th class="bible_courses">Cursos<br>bíblicos</th>
+                <th class="is_auxiliary_pioneer">Precursor<br>auxiliar</th>
+                <th class="hours">
+                    <span>Horas</span><br>
+                    <span style="font-weight: normal;">(Si es precursor o<br>misionero que<br>sirve en el campo)</span>
+                </th>
+                <th class="notes">Notas</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <!-- MESES -->
+            {{#each months}}
+            <tr>
+                <td>{{name}}</td>
+                <td class="center"><span class="checkbox {{checked participated}}"></span></td>
+                <td class="center">{{bibleCourses}}</td>
+                <td class="center"><span class="checkbox {{checked auxiliary}}"></span></td>
+                <td class="center">{{hours}}</td>
+                <td>{{notes}}</td>
+            </tr>
+            {{/each}}
+
+            <!-- TOTAL -->
+            <tr class="total-row">
+                <td colspan="4" class="center">Total</td>
+                <td class="center">{{totalHours}}</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+
+</html>
