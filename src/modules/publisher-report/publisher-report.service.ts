@@ -51,10 +51,8 @@ export class PublisherReportService {
     return this.prisma.publisherReport.findMany({
       where,
       take: limit && +limit,
-      orderBy: { id: order || 'asc' },
-      omit: {
-        person_id: true,
-      },
+      orderBy: [{ year: order === 'desc' ? 'desc' : 'asc' }, { month: order === 'desc' ? 'desc' : 'asc' }],
+      omit: { person_id: true },
     });
   }
 
