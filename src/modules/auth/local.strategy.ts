@@ -13,7 +13,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     const congregationId = +req.body.congregation_id;
     const user = await this.authService.validateUser(email, password, congregationId);
     if (!user) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Usuario o contraseña incorrectos');
     }
     return user;
   }
