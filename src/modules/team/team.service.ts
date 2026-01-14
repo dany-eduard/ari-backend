@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, ConflictException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { TeamDto } from './dto/team.dto';
 import { formatName } from 'src/utils/formatName';
@@ -7,22 +7,59 @@ import { formatName } from 'src/utils/formatName';
 export class TeamService {
   constructor(private prisma: PrismaService) {}
 
-  create(data: TeamDto) {
+  async create(data: TeamDto) {
     if (data.name) data.name = formatName(data.name);
-    return this.prisma.team.create({ data });
+    try {
+      return await this.prisma.team.create({ data });
+    } catch (error) {
+      if (error.code === 'P2002') {
+        throw new ConflictException('Ya existe un grupo con este nombre');
+      }
+      throw error;
+    }
   }
 
   findAll(congregation_id?: number) {
-    return this.prisma.team.findMany({ where: { congregation_id } });
+    return this.prisma.team.findMany({
+      where: { congregation_id },
+      include: {
+        people: {
+          select: {
+            is_active: true,
+            is_regular_pioneer: true,
+          },
+        },
+      },
+      omit: { congregation_id: true },
+      orderBy: { name: 'asc' },
+    });
   }
 
   findOne(id: number) {
-    return this.prisma.team.findUnique({ where: { id } });
+    return this.prisma.team.findUnique({
+      where: { id },
+      include: {
+        congregation: {
+          select: {
+            name: true,
+          },
+        },
+        people: true,
+      },
+      omit: { congregation_id: true },
+    });
   }
 
-  update(id: number, data: TeamDto) {
+  async update(id: number, data: TeamDto) {
     if (data.name) data.name = formatName(data.name);
-    return this.prisma.team.update({ where: { id }, data });
+    try {
+      return await this.prisma.team.update({ where: { id }, data });
+    } catch (error) {
+      if (error.code === 'P2002') {
+        throw new ConflictException('Ya existe un grupo con este nombre');
+      }
+      throw error;
+    }
   }
 
   async remove(id: number) {
