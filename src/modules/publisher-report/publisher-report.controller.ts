@@ -4,7 +4,7 @@ import { PublisherReportService } from './publisher-report.service';
 import { PublisherReportDto } from './dto/publisher-report.dto';
 
 @UseGuards(AuthGuard('jwt'))
-@Controller('publisher-report')
+@Controller('publisher-reports')
 export class PublisherReportController {
   constructor(private service: PublisherReportService) {}
 
