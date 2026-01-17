@@ -1,0 +1,109 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id              Int           @id @default(autoincrement())
+  congregation_id Int
+  email           String        @unique
+  password        String
+  first_name      String
+  last_name       String
+  congregation    Congregation? @relation(fields: [congregation_id], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Congregation {
+  id     Int      @id @default(autoincrement())
+  name   String
+  code   String?
+  users  User[]
+  teams  Team[]
+  people Person[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@unique([name, code])
+}
+
+model Team {
+  id              Int          @id @default(autoincrement())
+  congregation_id Int
+  name            String
+  congregation    Congregation @relation(fields: [congregation_id], references: [id])
+  people          Person[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@unique([name, congregation_id])
+}
+
+enum Sex {
+  MALE
+  FEMALE
+}
+
+model Person {
+  id              Int       @id @default(autoincrement())
+  congregation_id Int
+  team_id         Int
+  first_name      String
+  last_name       String
+  birth_date      DateTime
+  baptism_date    DateTime?
+  sex             Sex
+  number_phone    String?
+  is_active       Boolean   @default(true)
+
+  is_elder               Boolean @default(false)
+  is_ministerial_servant Boolean @default(false)
+  is_regular_pioneer     Boolean @default(false)
+  is_special_pioneer     Boolean @default(false)
+  is_field_missionary    Boolean @default(false)
+  is_other_sheep         Boolean @default(false)
+  is_anointed            Boolean @default(false)
+
+  congregation Congregation      @relation(fields: [congregation_id], references: [id])
+  team         Team              @relation(fields: [team_id], references: [id])
+  reports      PublisherReport[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@unique([congregation_id, first_name, last_name, birth_date, sex])
+}
+
+model PublisherReport {
+  id                   Int     @id @default(autoincrement())
+  person_id            Int
+  service_year         Int
+  year                 Int
+  month                Int
+  participated         Boolean @default(false)
+  bible_courses        Int     @default(0)
+  is_auxiliary_pioneer Boolean @default(false)
+  hours                Int     @default(0)
+  notes                String?
+
+  person Person @relation(fields: [person_id], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@unique([person_id, service_year, year, month])
+}
