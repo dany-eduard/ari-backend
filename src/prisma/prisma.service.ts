@@ -7,7 +7,10 @@ import { Pool } from 'pg';
 export class PrismaService extends PrismaClient {
   constructor() {
     const connectionString = process.env.DATABASE_URL;
-    const pool = new Pool({ connectionString });
+    const pool = new Pool({
+      connectionString,
+      ssl: process.env.NODE_ENV?.toLowerCase() === 'production' ? { rejectUnauthorized: false } : false,
+    });
     const adapter = new PrismaPg(pool);
     super({ adapter });
   }

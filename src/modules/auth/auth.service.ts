@@ -14,7 +14,6 @@ export class AuthService {
 
   async register(dto: RegisterDto) {
     const hash = await bcrypt.hash(dto.password, 10);
-    console.log({ hash });
     const user = await this.prisma.user.create({
       data: {
         email: dto.email,
@@ -22,6 +21,13 @@ export class AuthService {
         first_name: dto.first_name,
         last_name: dto.last_name,
         congregation_id: dto.congregation_id,
+      },
+      include: {
+        congregation: {
+          select: {
+            name: true,
+          },
+        },
       },
     });
     return this.sign(user as User & { congregation: { name: string } });

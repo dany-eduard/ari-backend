@@ -68,8 +68,6 @@ export class ReportsService {
     year: number;
     month: number;
   }): Promise<CongregationHomeResponseDto> {
-    console.log({ congregation_id, year, month });
-
     const congregation = await this.prisma.congregation.findUnique({
       where: { id: +congregation_id },
       include: {
