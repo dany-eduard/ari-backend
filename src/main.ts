@@ -8,6 +8,7 @@ async function bootstrap() {
     origin: [process.env.FRONTEND_URL],
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    exposedHeaders: ['X-Filename'],
   });
 
   await app.listen(process.env.PORT ?? 3000);

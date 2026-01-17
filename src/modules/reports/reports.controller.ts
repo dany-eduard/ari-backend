@@ -34,12 +34,17 @@ export class ReportsController {
       service_year,
     });
 
+    const fileName = `Registro de publicadores de la congregación ${congregation} ${service_year}.zip`;
     res.set({
       'Content-Type': 'application/zip',
-      'Content-Disposition': `inline; filename="Registro de publicadores de la congregación ${congregation} ${service_year}.zip"`,
+      'Content-Disposition': `inline; filename="${fileName}"`,
+      'X-Filename': fileName,
     });
 
-    return new StreamableFile(zipStream);
+    return new StreamableFile(zipStream, {
+      type: 'application/zip',
+      disposition: `inline; filename="${fileName}"`,
+    });
   }
 
   @Get('congregations/:congregation_id/home')
