@@ -22,6 +22,9 @@ model User {
   first_name      String
   last_name       String
   congregation    Congregation? @relation(fields: [congregation_id], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Congregation {
@@ -32,6 +35,9 @@ model Congregation {
   teams  Team[]
   people Person[]
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
   @@unique([name, code])
 }
 
@@ -41,6 +47,9 @@ model Team {
   name            String
   congregation    Congregation @relation(fields: [congregation_id], references: [id])
   people          Person[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
   @@unique([name, congregation_id])
 }
@@ -74,6 +83,9 @@ model Person {
   team         Team              @relation(fields: [team_id], references: [id])
   reports      PublisherReport[]
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
   @@unique([congregation_id, first_name, last_name, birth_date, sex])
 }
 
@@ -90,6 +102,9 @@ model PublisherReport {
   notes                String?
 
   person Person @relation(fields: [person_id], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
   @@unique([person_id, service_year, year, month])
 }

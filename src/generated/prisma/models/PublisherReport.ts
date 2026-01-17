@@ -57,6 +57,8 @@ export type PublisherReportMinAggregateOutputType = {
   is_auxiliary_pioneer: boolean | null
   hours: number | null
   notes: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type PublisherReportMaxAggregateOutputType = {
@@ -70,6 +72,8 @@ export type PublisherReportMaxAggregateOutputType = {
   is_auxiliary_pioneer: boolean | null
   hours: number | null
   notes: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type PublisherReportCountAggregateOutputType = {
@@ -83,6 +87,8 @@ export type PublisherReportCountAggregateOutputType = {
   is_auxiliary_pioneer: number
   hours: number
   notes: number
+  createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -118,6 +124,8 @@ export type PublisherReportMinAggregateInputType = {
   is_auxiliary_pioneer?: true
   hours?: true
   notes?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type PublisherReportMaxAggregateInputType = {
@@ -131,6 +139,8 @@ export type PublisherReportMaxAggregateInputType = {
   is_auxiliary_pioneer?: true
   hours?: true
   notes?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type PublisherReportCountAggregateInputType = {
@@ -144,6 +154,8 @@ export type PublisherReportCountAggregateInputType = {
   is_auxiliary_pioneer?: true
   hours?: true
   notes?: true
+  createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -244,6 +256,8 @@ export type PublisherReportGroupByOutputType = {
   is_auxiliary_pioneer: boolean
   hours: number
   notes: string | null
+  createdAt: Date
+  updatedAt: Date
   _count: PublisherReportCountAggregateOutputType | null
   _avg: PublisherReportAvgAggregateOutputType | null
   _sum: PublisherReportSumAggregateOutputType | null
@@ -280,6 +294,8 @@ export type PublisherReportWhereInput = {
   is_auxiliary_pioneer?: Prisma.BoolFilter<"PublisherReport"> | boolean
   hours?: Prisma.IntFilter<"PublisherReport"> | number
   notes?: Prisma.StringNullableFilter<"PublisherReport"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"PublisherReport"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"PublisherReport"> | Date | string
   person?: Prisma.XOR<Prisma.PersonScalarRelationFilter, Prisma.PersonWhereInput>
 }
 
@@ -294,6 +310,8 @@ export type PublisherReportOrderByWithRelationInput = {
   is_auxiliary_pioneer?: Prisma.SortOrder
   hours?: Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   person?: Prisma.PersonOrderByWithRelationInput
 }
 
@@ -312,6 +330,8 @@ export type PublisherReportWhereUniqueInput = Prisma.AtLeast<{
   is_auxiliary_pioneer?: Prisma.BoolFilter<"PublisherReport"> | boolean
   hours?: Prisma.IntFilter<"PublisherReport"> | number
   notes?: Prisma.StringNullableFilter<"PublisherReport"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"PublisherReport"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"PublisherReport"> | Date | string
   person?: Prisma.XOR<Prisma.PersonScalarRelationFilter, Prisma.PersonWhereInput>
 }, "id" | "person_id_service_year_year_month">
 
@@ -326,6 +346,8 @@ export type PublisherReportOrderByWithAggregationInput = {
   is_auxiliary_pioneer?: Prisma.SortOrder
   hours?: Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.PublisherReportCountOrderByAggregateInput
   _avg?: Prisma.PublisherReportAvgOrderByAggregateInput
   _max?: Prisma.PublisherReportMaxOrderByAggregateInput
@@ -347,6 +369,8 @@ export type PublisherReportScalarWhereWithAggregatesInput = {
   is_auxiliary_pioneer?: Prisma.BoolWithAggregatesFilter<"PublisherReport"> | boolean
   hours?: Prisma.IntWithAggregatesFilter<"PublisherReport"> | number
   notes?: Prisma.StringNullableWithAggregatesFilter<"PublisherReport"> | string | null
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"PublisherReport"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"PublisherReport"> | Date | string
 }
 
 export type PublisherReportCreateInput = {
@@ -358,6 +382,8 @@ export type PublisherReportCreateInput = {
   is_auxiliary_pioneer?: boolean
   hours?: number
   notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   person: Prisma.PersonCreateNestedOneWithoutReportsInput
 }
 
@@ -372,6 +398,8 @@ export type PublisherReportUncheckedCreateInput = {
   is_auxiliary_pioneer?: boolean
   hours?: number
   notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type PublisherReportUpdateInput = {
@@ -383,6 +411,8 @@ export type PublisherReportUpdateInput = {
   is_auxiliary_pioneer?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hours?: Prisma.IntFieldUpdateOperationsInput | number
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   person?: Prisma.PersonUpdateOneRequiredWithoutReportsNestedInput
 }
 
@@ -397,6 +427,8 @@ export type PublisherReportUncheckedUpdateInput = {
   is_auxiliary_pioneer?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hours?: Prisma.IntFieldUpdateOperationsInput | number
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type PublisherReportCreateManyInput = {
@@ -410,6 +442,8 @@ export type PublisherReportCreateManyInput = {
   is_auxiliary_pioneer?: boolean
   hours?: number
   notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type PublisherReportUpdateManyMutationInput = {
@@ -421,6 +455,8 @@ export type PublisherReportUpdateManyMutationInput = {
   is_auxiliary_pioneer?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hours?: Prisma.IntFieldUpdateOperationsInput | number
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type PublisherReportUncheckedUpdateManyInput = {
@@ -434,6 +470,8 @@ export type PublisherReportUncheckedUpdateManyInput = {
   is_auxiliary_pioneer?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hours?: Prisma.IntFieldUpdateOperationsInput | number
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type PublisherReportListRelationFilter = {
@@ -464,6 +502,8 @@ export type PublisherReportCountOrderByAggregateInput = {
   is_auxiliary_pioneer?: Prisma.SortOrder
   hours?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type PublisherReportAvgOrderByAggregateInput = {
@@ -487,6 +527,8 @@ export type PublisherReportMaxOrderByAggregateInput = {
   is_auxiliary_pioneer?: Prisma.SortOrder
   hours?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type PublisherReportMinOrderByAggregateInput = {
@@ -500,6 +542,8 @@ export type PublisherReportMinOrderByAggregateInput = {
   is_auxiliary_pioneer?: Prisma.SortOrder
   hours?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type PublisherReportSumOrderByAggregateInput = {
@@ -563,6 +607,8 @@ export type PublisherReportCreateWithoutPersonInput = {
   is_auxiliary_pioneer?: boolean
   hours?: number
   notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type PublisherReportUncheckedCreateWithoutPersonInput = {
@@ -575,6 +621,8 @@ export type PublisherReportUncheckedCreateWithoutPersonInput = {
   is_auxiliary_pioneer?: boolean
   hours?: number
   notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type PublisherReportCreateOrConnectWithoutPersonInput = {
@@ -617,6 +665,8 @@ export type PublisherReportScalarWhereInput = {
   is_auxiliary_pioneer?: Prisma.BoolFilter<"PublisherReport"> | boolean
   hours?: Prisma.IntFilter<"PublisherReport"> | number
   notes?: Prisma.StringNullableFilter<"PublisherReport"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"PublisherReport"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"PublisherReport"> | Date | string
 }
 
 export type PublisherReportCreateManyPersonInput = {
@@ -629,6 +679,8 @@ export type PublisherReportCreateManyPersonInput = {
   is_auxiliary_pioneer?: boolean
   hours?: number
   notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type PublisherReportUpdateWithoutPersonInput = {
@@ -640,6 +692,8 @@ export type PublisherReportUpdateWithoutPersonInput = {
   is_auxiliary_pioneer?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hours?: Prisma.IntFieldUpdateOperationsInput | number
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type PublisherReportUncheckedUpdateWithoutPersonInput = {
@@ -652,6 +706,8 @@ export type PublisherReportUncheckedUpdateWithoutPersonInput = {
   is_auxiliary_pioneer?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hours?: Prisma.IntFieldUpdateOperationsInput | number
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type PublisherReportUncheckedUpdateManyWithoutPersonInput = {
@@ -664,6 +720,8 @@ export type PublisherReportUncheckedUpdateManyWithoutPersonInput = {
   is_auxiliary_pioneer?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hours?: Prisma.IntFieldUpdateOperationsInput | number
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -679,6 +737,8 @@ export type PublisherReportSelect<ExtArgs extends runtime.Types.Extensions.Inter
   is_auxiliary_pioneer?: boolean
   hours?: boolean
   notes?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   person?: boolean | Prisma.PersonDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["publisherReport"]>
 
@@ -693,6 +753,8 @@ export type PublisherReportSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   is_auxiliary_pioneer?: boolean
   hours?: boolean
   notes?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   person?: boolean | Prisma.PersonDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["publisherReport"]>
 
@@ -707,6 +769,8 @@ export type PublisherReportSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   is_auxiliary_pioneer?: boolean
   hours?: boolean
   notes?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   person?: boolean | Prisma.PersonDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["publisherReport"]>
 
@@ -721,9 +785,11 @@ export type PublisherReportSelectScalar = {
   is_auxiliary_pioneer?: boolean
   hours?: boolean
   notes?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type PublisherReportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "person_id" | "service_year" | "year" | "month" | "participated" | "bible_courses" | "is_auxiliary_pioneer" | "hours" | "notes", ExtArgs["result"]["publisherReport"]>
+export type PublisherReportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "person_id" | "service_year" | "year" | "month" | "participated" | "bible_courses" | "is_auxiliary_pioneer" | "hours" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["publisherReport"]>
 export type PublisherReportInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   person?: boolean | Prisma.PersonDefaultArgs<ExtArgs>
 }
@@ -750,6 +816,8 @@ export type $PublisherReportPayload<ExtArgs extends runtime.Types.Extensions.Int
     is_auxiliary_pioneer: boolean
     hours: number
     notes: string | null
+    createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["publisherReport"]>
   composites: {}
 }
@@ -1184,6 +1252,8 @@ export interface PublisherReportFieldRefs {
   readonly is_auxiliary_pioneer: Prisma.FieldRef<"PublisherReport", 'Boolean'>
   readonly hours: Prisma.FieldRef<"PublisherReport", 'Int'>
   readonly notes: Prisma.FieldRef<"PublisherReport", 'String'>
+  readonly createdAt: Prisma.FieldRef<"PublisherReport", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"PublisherReport", 'DateTime'>
 }
     
 

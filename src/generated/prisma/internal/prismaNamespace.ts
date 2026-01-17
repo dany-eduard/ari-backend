@@ -823,7 +823,9 @@ export const UserScalarFieldEnum = {
   email: 'email',
   password: 'password',
   first_name: 'first_name',
-  last_name: 'last_name'
+  last_name: 'last_name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -832,7 +834,9 @@ export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof User
 export const CongregationScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  code: 'code'
+  code: 'code',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type CongregationScalarFieldEnum = (typeof CongregationScalarFieldEnum)[keyof typeof CongregationScalarFieldEnum]
@@ -841,7 +845,9 @@ export type CongregationScalarFieldEnum = (typeof CongregationScalarFieldEnum)[k
 export const TeamScalarFieldEnum = {
   id: 'id',
   congregation_id: 'congregation_id',
-  name: 'name'
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type TeamScalarFieldEnum = (typeof TeamScalarFieldEnum)[keyof typeof TeamScalarFieldEnum]
@@ -864,7 +870,9 @@ export const PersonScalarFieldEnum = {
   is_special_pioneer: 'is_special_pioneer',
   is_field_missionary: 'is_field_missionary',
   is_other_sheep: 'is_other_sheep',
-  is_anointed: 'is_anointed'
+  is_anointed: 'is_anointed',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type PersonScalarFieldEnum = (typeof PersonScalarFieldEnum)[keyof typeof PersonScalarFieldEnum]
@@ -880,7 +888,9 @@ export const PublisherReportScalarFieldEnum = {
   bible_courses: 'bible_courses',
   is_auxiliary_pioneer: 'is_auxiliary_pioneer',
   hours: 'hours',
-  notes: 'notes'
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type PublisherReportScalarFieldEnum = (typeof PublisherReportScalarFieldEnum)[keyof typeof PublisherReportScalarFieldEnum]

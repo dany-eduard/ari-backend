@@ -56,6 +56,8 @@ export type PersonMinAggregateOutputType = {
   is_field_missionary: boolean | null
   is_other_sheep: boolean | null
   is_anointed: boolean | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type PersonMaxAggregateOutputType = {
@@ -76,6 +78,8 @@ export type PersonMaxAggregateOutputType = {
   is_field_missionary: boolean | null
   is_other_sheep: boolean | null
   is_anointed: boolean | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type PersonCountAggregateOutputType = {
@@ -96,6 +100,8 @@ export type PersonCountAggregateOutputType = {
   is_field_missionary: number
   is_other_sheep: number
   is_anointed: number
+  createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -130,6 +136,8 @@ export type PersonMinAggregateInputType = {
   is_field_missionary?: true
   is_other_sheep?: true
   is_anointed?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type PersonMaxAggregateInputType = {
@@ -150,6 +158,8 @@ export type PersonMaxAggregateInputType = {
   is_field_missionary?: true
   is_other_sheep?: true
   is_anointed?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type PersonCountAggregateInputType = {
@@ -170,6 +180,8 @@ export type PersonCountAggregateInputType = {
   is_field_missionary?: true
   is_other_sheep?: true
   is_anointed?: true
+  createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -277,6 +289,8 @@ export type PersonGroupByOutputType = {
   is_field_missionary: boolean
   is_other_sheep: boolean
   is_anointed: boolean
+  createdAt: Date
+  updatedAt: Date
   _count: PersonCountAggregateOutputType | null
   _avg: PersonAvgAggregateOutputType | null
   _sum: PersonSumAggregateOutputType | null
@@ -320,6 +334,8 @@ export type PersonWhereInput = {
   is_field_missionary?: Prisma.BoolFilter<"Person"> | boolean
   is_other_sheep?: Prisma.BoolFilter<"Person"> | boolean
   is_anointed?: Prisma.BoolFilter<"Person"> | boolean
+  createdAt?: Prisma.DateTimeFilter<"Person"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Person"> | Date | string
   congregation?: Prisma.XOR<Prisma.CongregationScalarRelationFilter, Prisma.CongregationWhereInput>
   team?: Prisma.XOR<Prisma.TeamScalarRelationFilter, Prisma.TeamWhereInput>
   reports?: Prisma.PublisherReportListRelationFilter
@@ -343,6 +359,8 @@ export type PersonOrderByWithRelationInput = {
   is_field_missionary?: Prisma.SortOrder
   is_other_sheep?: Prisma.SortOrder
   is_anointed?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   congregation?: Prisma.CongregationOrderByWithRelationInput
   team?: Prisma.TeamOrderByWithRelationInput
   reports?: Prisma.PublisherReportOrderByRelationAggregateInput
@@ -370,6 +388,8 @@ export type PersonWhereUniqueInput = Prisma.AtLeast<{
   is_field_missionary?: Prisma.BoolFilter<"Person"> | boolean
   is_other_sheep?: Prisma.BoolFilter<"Person"> | boolean
   is_anointed?: Prisma.BoolFilter<"Person"> | boolean
+  createdAt?: Prisma.DateTimeFilter<"Person"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Person"> | Date | string
   congregation?: Prisma.XOR<Prisma.CongregationScalarRelationFilter, Prisma.CongregationWhereInput>
   team?: Prisma.XOR<Prisma.TeamScalarRelationFilter, Prisma.TeamWhereInput>
   reports?: Prisma.PublisherReportListRelationFilter
@@ -393,6 +413,8 @@ export type PersonOrderByWithAggregationInput = {
   is_field_missionary?: Prisma.SortOrder
   is_other_sheep?: Prisma.SortOrder
   is_anointed?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.PersonCountOrderByAggregateInput
   _avg?: Prisma.PersonAvgOrderByAggregateInput
   _max?: Prisma.PersonMaxOrderByAggregateInput
@@ -421,6 +443,8 @@ export type PersonScalarWhereWithAggregatesInput = {
   is_field_missionary?: Prisma.BoolWithAggregatesFilter<"Person"> | boolean
   is_other_sheep?: Prisma.BoolWithAggregatesFilter<"Person"> | boolean
   is_anointed?: Prisma.BoolWithAggregatesFilter<"Person"> | boolean
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Person"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Person"> | Date | string
 }
 
 export type PersonCreateInput = {
@@ -438,6 +462,8 @@ export type PersonCreateInput = {
   is_field_missionary?: boolean
   is_other_sheep?: boolean
   is_anointed?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
   congregation: Prisma.CongregationCreateNestedOneWithoutPeopleInput
   team: Prisma.TeamCreateNestedOneWithoutPeopleInput
   reports?: Prisma.PublisherReportCreateNestedManyWithoutPersonInput
@@ -461,6 +487,8 @@ export type PersonUncheckedCreateInput = {
   is_field_missionary?: boolean
   is_other_sheep?: boolean
   is_anointed?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
   reports?: Prisma.PublisherReportUncheckedCreateNestedManyWithoutPersonInput
 }
 
@@ -479,6 +507,8 @@ export type PersonUpdateInput = {
   is_field_missionary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_other_sheep?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_anointed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   congregation?: Prisma.CongregationUpdateOneRequiredWithoutPeopleNestedInput
   team?: Prisma.TeamUpdateOneRequiredWithoutPeopleNestedInput
   reports?: Prisma.PublisherReportUpdateManyWithoutPersonNestedInput
@@ -502,6 +532,8 @@ export type PersonUncheckedUpdateInput = {
   is_field_missionary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_other_sheep?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_anointed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reports?: Prisma.PublisherReportUncheckedUpdateManyWithoutPersonNestedInput
 }
 
@@ -523,6 +555,8 @@ export type PersonCreateManyInput = {
   is_field_missionary?: boolean
   is_other_sheep?: boolean
   is_anointed?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type PersonUpdateManyMutationInput = {
@@ -540,6 +574,8 @@ export type PersonUpdateManyMutationInput = {
   is_field_missionary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_other_sheep?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_anointed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type PersonUncheckedUpdateManyInput = {
@@ -560,6 +596,8 @@ export type PersonUncheckedUpdateManyInput = {
   is_field_missionary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_other_sheep?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_anointed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type PersonListRelationFilter = {
@@ -598,6 +636,8 @@ export type PersonCountOrderByAggregateInput = {
   is_field_missionary?: Prisma.SortOrder
   is_other_sheep?: Prisma.SortOrder
   is_anointed?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type PersonAvgOrderByAggregateInput = {
@@ -624,6 +664,8 @@ export type PersonMaxOrderByAggregateInput = {
   is_field_missionary?: Prisma.SortOrder
   is_other_sheep?: Prisma.SortOrder
   is_anointed?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type PersonMinOrderByAggregateInput = {
@@ -644,6 +686,8 @@ export type PersonMinOrderByAggregateInput = {
   is_field_missionary?: Prisma.SortOrder
   is_other_sheep?: Prisma.SortOrder
   is_anointed?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type PersonSumOrderByAggregateInput = {
@@ -741,10 +785,6 @@ export type PersonUncheckedUpdateManyWithoutTeamNestedInput = {
   deleteMany?: Prisma.PersonScalarWhereInput | Prisma.PersonScalarWhereInput[]
 }
 
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
-}
-
 export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
 }
@@ -786,6 +826,8 @@ export type PersonCreateWithoutCongregationInput = {
   is_field_missionary?: boolean
   is_other_sheep?: boolean
   is_anointed?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
   team: Prisma.TeamCreateNestedOneWithoutPeopleInput
   reports?: Prisma.PublisherReportCreateNestedManyWithoutPersonInput
 }
@@ -807,6 +849,8 @@ export type PersonUncheckedCreateWithoutCongregationInput = {
   is_field_missionary?: boolean
   is_other_sheep?: boolean
   is_anointed?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
   reports?: Prisma.PublisherReportUncheckedCreateNestedManyWithoutPersonInput
 }
 
@@ -857,6 +901,8 @@ export type PersonScalarWhereInput = {
   is_field_missionary?: Prisma.BoolFilter<"Person"> | boolean
   is_other_sheep?: Prisma.BoolFilter<"Person"> | boolean
   is_anointed?: Prisma.BoolFilter<"Person"> | boolean
+  createdAt?: Prisma.DateTimeFilter<"Person"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Person"> | Date | string
 }
 
 export type PersonCreateWithoutTeamInput = {
@@ -874,6 +920,8 @@ export type PersonCreateWithoutTeamInput = {
   is_field_missionary?: boolean
   is_other_sheep?: boolean
   is_anointed?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
   congregation: Prisma.CongregationCreateNestedOneWithoutPeopleInput
   reports?: Prisma.PublisherReportCreateNestedManyWithoutPersonInput
 }
@@ -895,6 +943,8 @@ export type PersonUncheckedCreateWithoutTeamInput = {
   is_field_missionary?: boolean
   is_other_sheep?: boolean
   is_anointed?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
   reports?: Prisma.PublisherReportUncheckedCreateNestedManyWithoutPersonInput
 }
 
@@ -939,6 +989,8 @@ export type PersonCreateWithoutReportsInput = {
   is_field_missionary?: boolean
   is_other_sheep?: boolean
   is_anointed?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
   congregation: Prisma.CongregationCreateNestedOneWithoutPeopleInput
   team: Prisma.TeamCreateNestedOneWithoutPeopleInput
 }
@@ -961,6 +1013,8 @@ export type PersonUncheckedCreateWithoutReportsInput = {
   is_field_missionary?: boolean
   is_other_sheep?: boolean
   is_anointed?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type PersonCreateOrConnectWithoutReportsInput = {
@@ -994,6 +1048,8 @@ export type PersonUpdateWithoutReportsInput = {
   is_field_missionary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_other_sheep?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_anointed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   congregation?: Prisma.CongregationUpdateOneRequiredWithoutPeopleNestedInput
   team?: Prisma.TeamUpdateOneRequiredWithoutPeopleNestedInput
 }
@@ -1016,6 +1072,8 @@ export type PersonUncheckedUpdateWithoutReportsInput = {
   is_field_missionary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_other_sheep?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_anointed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type PersonCreateManyCongregationInput = {
@@ -1035,6 +1093,8 @@ export type PersonCreateManyCongregationInput = {
   is_field_missionary?: boolean
   is_other_sheep?: boolean
   is_anointed?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type PersonUpdateWithoutCongregationInput = {
@@ -1052,6 +1112,8 @@ export type PersonUpdateWithoutCongregationInput = {
   is_field_missionary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_other_sheep?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_anointed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   team?: Prisma.TeamUpdateOneRequiredWithoutPeopleNestedInput
   reports?: Prisma.PublisherReportUpdateManyWithoutPersonNestedInput
 }
@@ -1073,6 +1135,8 @@ export type PersonUncheckedUpdateWithoutCongregationInput = {
   is_field_missionary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_other_sheep?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_anointed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reports?: Prisma.PublisherReportUncheckedUpdateManyWithoutPersonNestedInput
 }
 
@@ -1093,6 +1157,8 @@ export type PersonUncheckedUpdateManyWithoutCongregationInput = {
   is_field_missionary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_other_sheep?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_anointed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type PersonCreateManyTeamInput = {
@@ -1112,6 +1178,8 @@ export type PersonCreateManyTeamInput = {
   is_field_missionary?: boolean
   is_other_sheep?: boolean
   is_anointed?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type PersonUpdateWithoutTeamInput = {
@@ -1129,6 +1197,8 @@ export type PersonUpdateWithoutTeamInput = {
   is_field_missionary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_other_sheep?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_anointed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   congregation?: Prisma.CongregationUpdateOneRequiredWithoutPeopleNestedInput
   reports?: Prisma.PublisherReportUpdateManyWithoutPersonNestedInput
 }
@@ -1150,6 +1220,8 @@ export type PersonUncheckedUpdateWithoutTeamInput = {
   is_field_missionary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_other_sheep?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_anointed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reports?: Prisma.PublisherReportUncheckedUpdateManyWithoutPersonNestedInput
 }
 
@@ -1170,6 +1242,8 @@ export type PersonUncheckedUpdateManyWithoutTeamInput = {
   is_field_missionary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_other_sheep?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_anointed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -1221,6 +1295,8 @@ export type PersonSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   is_field_missionary?: boolean
   is_other_sheep?: boolean
   is_anointed?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   congregation?: boolean | Prisma.CongregationDefaultArgs<ExtArgs>
   team?: boolean | Prisma.TeamDefaultArgs<ExtArgs>
   reports?: boolean | Prisma.Person$reportsArgs<ExtArgs>
@@ -1245,6 +1321,8 @@ export type PersonSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   is_field_missionary?: boolean
   is_other_sheep?: boolean
   is_anointed?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   congregation?: boolean | Prisma.CongregationDefaultArgs<ExtArgs>
   team?: boolean | Prisma.TeamDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["person"]>
@@ -1267,6 +1345,8 @@ export type PersonSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   is_field_missionary?: boolean
   is_other_sheep?: boolean
   is_anointed?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   congregation?: boolean | Prisma.CongregationDefaultArgs<ExtArgs>
   team?: boolean | Prisma.TeamDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["person"]>
@@ -1289,9 +1369,11 @@ export type PersonSelectScalar = {
   is_field_missionary?: boolean
   is_other_sheep?: boolean
   is_anointed?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type PersonOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "congregation_id" | "team_id" | "first_name" | "last_name" | "birth_date" | "baptism_date" | "sex" | "number_phone" | "is_active" | "is_elder" | "is_ministerial_servant" | "is_regular_pioneer" | "is_special_pioneer" | "is_field_missionary" | "is_other_sheep" | "is_anointed", ExtArgs["result"]["person"]>
+export type PersonOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "congregation_id" | "team_id" | "first_name" | "last_name" | "birth_date" | "baptism_date" | "sex" | "number_phone" | "is_active" | "is_elder" | "is_ministerial_servant" | "is_regular_pioneer" | "is_special_pioneer" | "is_field_missionary" | "is_other_sheep" | "is_anointed" | "createdAt" | "updatedAt", ExtArgs["result"]["person"]>
 export type PersonInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   congregation?: boolean | Prisma.CongregationDefaultArgs<ExtArgs>
   team?: boolean | Prisma.TeamDefaultArgs<ExtArgs>
@@ -1332,6 +1414,8 @@ export type $PersonPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     is_field_missionary: boolean
     is_other_sheep: boolean
     is_anointed: boolean
+    createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["person"]>
   composites: {}
 }
@@ -1775,6 +1859,8 @@ export interface PersonFieldRefs {
   readonly is_field_missionary: Prisma.FieldRef<"Person", 'Boolean'>
   readonly is_other_sheep: Prisma.FieldRef<"Person", 'Boolean'>
   readonly is_anointed: Prisma.FieldRef<"Person", 'Boolean'>
+  readonly createdAt: Prisma.FieldRef<"Person", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"Person", 'DateTime'>
 }
     
 
