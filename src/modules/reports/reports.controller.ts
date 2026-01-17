@@ -1,5 +1,5 @@
 import express from 'express';
-import { Controller, Get, Param, Res, StreamableFile } from '@nestjs/common';
+import { Controller, Get, Param, Query, Res, StreamableFile } from '@nestjs/common';
 import { ReportsService } from './reports.service';
 
 @Controller('reports')
@@ -40,5 +40,14 @@ export class ReportsController {
     });
 
     return new StreamableFile(zipStream);
+  }
+
+  @Get('congregations/:congregation_id/home')
+  async congregationHome(
+    @Param('congregation_id') congregation_id: number,
+    @Query('year') year: number,
+    @Query('month') month: number,
+  ) {
+    return this.service.congregationHome({ congregation_id, year: +year, month: +month });
   }
 }
