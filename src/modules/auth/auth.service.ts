@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { RegisterDto } from './dto/register.dto';
-import { User } from 'src/generated/prisma/client';
+import { User, Prisma } from 'src/generated/prisma/client';
 
 @Injectable()
 export class AuthService {
@@ -14,23 +14,30 @@ export class AuthService {
 
   async register(dto: RegisterDto) {
     const hash = await bcrypt.hash(dto.password, 10);
-    const user = await this.prisma.user.create({
-      data: {
-        email: dto.email,
-        password: hash,
-        first_name: dto.first_name,
-        last_name: dto.last_name,
-        congregation_id: dto.congregation_id,
-      },
-      include: {
-        congregation: {
-          select: {
-            name: true,
+    try {
+      const user = await this.prisma.user.create({
+        data: {
+          email: dto.email,
+          password: hash,
+          first_name: dto.first_name,
+          last_name: dto.last_name,
+          congregation_id: dto.congregation_id,
+        },
+        include: {
+          congregation: {
+            select: {
+              name: true,
+            },
           },
         },
-      },
-    });
-    return this.sign(user as User & { congregation: { name: string } });
+      });
+      return this.sign(user as User & { congregation: { name: string } });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+        throw new ConflictException('El correo electrónico ya está en uso');
+      }
+      throw error;
+    }
   }
 
   async validateUser(email: string, password: string, congregation_id: number) {
