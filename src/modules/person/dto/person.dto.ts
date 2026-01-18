@@ -26,6 +26,9 @@ export class PersonDto {
   number_phone?: string;
 
   @IsBoolean()
+  is_active?: boolean;
+
+  @IsBoolean()
   is_elder: boolean;
 
   @IsBoolean()
