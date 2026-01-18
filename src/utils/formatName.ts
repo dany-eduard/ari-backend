@@ -4,5 +4,7 @@ export function formatName(text: string) {
     .trim()
     .replace(/\s+/g, ' ')
     .toLowerCase()
-    .replace(/\b\w/g, (l) => l.toUpperCase());
+    .split(' ')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
 }
