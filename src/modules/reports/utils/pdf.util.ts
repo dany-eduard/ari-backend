@@ -32,6 +32,7 @@ export class PdfUtil {
 
     await page.setContent(html, {
       waitUntil: 'networkidle0',
+      timeout: 60000,
     });
 
     // 4. Generar PDF → BUFFER
