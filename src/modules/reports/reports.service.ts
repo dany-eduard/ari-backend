@@ -60,20 +60,32 @@ export class ReportsService {
     });
 
     const getPublisherData = async (person: Person) => {
-      const data = this.publisherHelper.processPublisherData(person, service_year);
-      const formattedData = this.publisherHelper.mapToPdfData({ ...data, service_year });
-      const pdfBuffer = await this.pdfUtil.generatePdf({
-        templateHbs: 'src/modules/reports/templates/publisher-report_S-21-S_v11.23.html',
-        data: formattedData,
-        browser,
-      });
+      try {
+        const data = this.publisherHelper.processPublisherData(person, service_year);
+        const formattedData = this.publisherHelper.mapToPdfData({ ...data, service_year });
 
-      const isRegular = data!.is_regular_pioneer;
-      const isActive = data!.is_active ?? true;
-      const teamName = congregation!.teams.find((team) => team.id === person['team_id'])?.name;
-      const directory = `Registro de publicadores de la congregación ${congregation!.name.trim()} ${service_year}/${isRegular ? 'Precursores' : isActive ? 'Activos' : 'Inactivos'}`;
-      const fileName = `${directory}${isRegular ? '' : `/${teamName}`}/${data!.last_name.trim()} ${data!.first_name.trim()} ${service_year}.pdf`;
-      return { fileName, buffer: pdfBuffer };
+        console.log(`Generating PDF for: ${data!.first_name} ${data!.last_name}`);
+
+        const pdfBuffer = await this.pdfUtil.generatePdf({
+          templateHbs: 'src/modules/reports/templates/publisher-report_S-21-S_v11.23.html',
+          data: formattedData,
+          browser,
+          timeout: 120000, // 2 minutes timeout for production
+        });
+
+        const isRegular = data!.is_regular_pioneer;
+        const isActive = data!.is_active ?? true;
+        const teamName = congregation!.teams.find((team) => team.id === person['team_id'])?.name;
+        const directory = `Registro de publicadores de la congregación ${congregation!.name.trim()} ${service_year}/${isRegular ? 'Precursores' : isActive ? 'Activos' : 'Inactivos'}`;
+        const fileName = `${directory}${isRegular ? '' : `/${teamName}`}/${data!.last_name.trim()} ${data!.first_name.trim()} ${service_year}.pdf`;
+
+        console.log(`✓ PDF generated successfully for: ${data!.first_name} ${data!.last_name}`);
+
+        return { fileName, buffer: pdfBuffer };
+      } catch (error) {
+        console.error(`✗ Failed to generate PDF for person ID ${person.id}:`, error.message);
+        throw error; // Re-throw to let zip generation handle it
+      }
     };
 
     try {
