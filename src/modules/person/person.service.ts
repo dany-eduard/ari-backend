@@ -87,4 +87,91 @@ export class PersonService {
   remove(id: number) {
     return this.prisma.person.delete({ where: { id } });
   }
+
+  async syncCongregationPublishersStatus(congregation_id: number) {
+    const currentMonth = new Date().getMonth() + 1;
+    const currentYear = new Date().getFullYear();
+    const serviceYearMonths = new ServiceYearMonths(currentYear);
+    const serviceYear = serviceYearMonths.getServiceYear(currentMonth);
+    const monthsOrder = serviceYearMonths.monthsOrder;
+    const currentMonthIndex = monthsOrder.indexOf(currentMonth);
+
+    const people = await this.prisma.person.findMany({
+      where: { congregation_id },
+      select: {
+        id: true,
+        first_name: true,
+        last_name: true,
+        is_active: true,
+        reports: {
+          where: { service_year: serviceYear },
+          orderBy: [{ year: 'desc' }, { month: 'desc' }],
+          take: 3,
+          select: { month: true, participated: true },
+        },
+      },
+    });
+
+    const toActivate: { id: number; name: string }[] = [];
+    const toDeactivate: { id: number; name: string }[] = [];
+
+    for (const person of people) {
+      let shouldBeActive = true;
+
+      // Only check for inactivity if at least 3 months have passed in the current logical timeline
+      // currentMonthIndex starts at 0 (Sept).
+      // We need to check indices: currentMonthIndex-1, currentMonthIndex-2, currentMonthIndex-3.
+      // So we need currentMonthIndex >= 3 (meaning current is Dec (index 3) or later.
+      // If current is Dec (3), we check Nov(2), Oct(1), Sept(0).
+
+      if (currentMonthIndex >= 3) {
+        const last3MonthsIndices = [currentMonthIndex - 1, currentMonthIndex - 2, currentMonthIndex - 3];
+
+        const hasRecentActivity = last3MonthsIndices.some((monthIndex) => {
+          const monthVal = monthsOrder[monthIndex];
+          // Check if there is ANY report for this month that has participated = true
+          const strictReport = person.reports.find((r) => r.month === monthVal);
+
+          // If report exists and participated is true, then they were active this month.
+          if (strictReport && strictReport.participated) {
+            return true;
+          }
+          return false;
+        });
+
+        // If NO recent activity in ANY of the last 3 months, they should be inactive.
+        if (!hasRecentActivity) {
+          shouldBeActive = false;
+        }
+      }
+
+      if (shouldBeActive && !person.is_active) {
+        toActivate.push({ id: person.id, name: `${person.first_name} ${person.last_name}`.trim() });
+      } else if (!shouldBeActive && person.is_active) {
+        toDeactivate.push({ id: person.id, name: `${person.first_name} ${person.last_name}`.trim() });
+      }
+    }
+
+    if (toActivate.length > 0) {
+      // INFO: Comentado porque se debe realizar la actualización manualmente
+      // await this.prisma.person.updateMany({
+      //   where: { id: { in: toActivate.map((p) => p.id) } },
+      //   data: { is_active: true },
+      // });
+    }
+
+    if (toDeactivate.length > 0) {
+      await this.prisma.person.updateMany({
+        where: { id: { in: toDeactivate.map((p) => p.id) } },
+        data: { is_active: false },
+      });
+    }
+
+    console.log(toActivate, toDeactivate);
+
+    return {
+      to_activate: toDeactivate, //toActivate,
+      to_deactivate: toDeactivate,
+    };
+  }
 }

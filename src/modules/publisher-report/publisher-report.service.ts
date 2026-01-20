@@ -1,8 +1,9 @@
-import { Injectable, ConflictException } from '@nestjs/common';
+import { Injectable, BadRequestException, ConflictException } from '@nestjs/common';
 import { Prisma } from '../../generated/prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { PublisherReportDto } from './dto/publisher-report.dto';
 import { ServiceYearMonths } from 'src/utils/service-year-months.util';
+import { isPublisherActive } from './helpers/validate-publisher-status.helper';
 
 @Injectable()
 export class PublisherReportService {
@@ -12,6 +13,12 @@ export class PublisherReportService {
     try {
       const serviceYearMonths = new ServiceYearMonths(data.year);
       const serviceYearMonth = serviceYearMonths.months.find((month) => month.month === data.month);
+
+      const isActive = await isPublisherActive(data.person_id, this.prisma);
+
+      if (data.participated && !isActive) {
+        throw new BadRequestException('El publicador no esta activo');
+      }
 
       return await this.prisma.publisherReport.create({
         data: {

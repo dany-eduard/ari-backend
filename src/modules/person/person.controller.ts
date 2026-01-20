@@ -21,6 +21,11 @@ export class PersonController {
     return this.service.findAllByCongregation(+congregation_id, query);
   }
 
+  @Put('congregations/:congregation_id/people/update-status')
+  syncCongregationPublishersStatus(@Param('congregation_id') congregation_id: string) {
+    return this.service.syncCongregationPublishersStatus(+congregation_id);
+  }
+
   @Get('people/:id')
   findOne(@Param('id') id: string) {
     return this.service.findOne(+id);
