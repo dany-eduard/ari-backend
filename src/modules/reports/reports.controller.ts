@@ -30,8 +30,8 @@ export class ReportsController {
     @Res({ passthrough: true }) res: express.Response,
   ): Promise<StreamableFile> {
     const { zipStream, congregation } = await this.service.congregationPublishersServiceYear({
-      congregation_id,
-      service_year,
+      congregation_id: +congregation_id,
+      service_year: +service_year,
     });
 
     const fileName = `Registro de publicadores de la congregación ${congregation} ${service_year}.zip`;

@@ -8,11 +8,6 @@ export class PublisherHelper {
   constructor(private prisma: PrismaService) {}
 
   async getPublisherData(person_id: number, service_year: number) {
-    const serviceYearMonths = new ServiceYearMonths(service_year - 1);
-    const monthsOrdered = serviceYearMonths.monthsOrder;
-    const months = serviceYearMonths.months;
-    let totalHours = 0;
-
     const person = await this.prisma.person.findUnique({
       where: { id: person_id },
       omit: {
@@ -29,6 +24,15 @@ export class PublisherHelper {
         },
       },
     });
+
+    return this.processPublisherData(person, service_year);
+  }
+
+  processPublisherData(person: any, service_year: number) {
+    const serviceYearMonths = new ServiceYearMonths(service_year - 1);
+    const monthsOrdered = serviceYearMonths.monthsOrder;
+    const months = serviceYearMonths.months;
+    let totalHours = 0;
 
     if (person?.birth_date) {
       person.birth_date = new Date(person.birth_date).toLocaleDateString('es-CO', {

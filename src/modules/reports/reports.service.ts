@@ -36,27 +36,52 @@ export class ReportsService {
       where: { id: +congregation_id },
       include: {
         people: {
-          select: {
-            id: true,
-            team_id: true,
+          omit: {
+            congregation_id: true,
+            number_phone: true,
+          },
+          include: {
+            congregation: true,
+            reports: {
+              where: { service_year },
+              orderBy: [{ year: 'asc' }, { month: 'asc' }],
+              omit: { person_id: true },
+            },
           },
         },
         teams: true,
       },
     });
 
+    const puppeteer = await import('puppeteer');
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu', '--disable-dev-shm-usage'],
+    });
+
     const getPublisherData = async (person: Person) => {
-      const { pdfBuffer, data } = await this.publisherServiceYear({ person_id: person.id, service_year });
+      const data = this.publisherHelper.processPublisherData(person, service_year);
+      const formattedData = this.publisherHelper.mapToPdfData({ ...data, service_year });
+      const pdfBuffer = await this.pdfUtil.generatePdf({
+        templateHbs: 'src/modules/reports/templates/publisher-report_S-21-S_v11.23.html',
+        data: formattedData,
+        browser,
+      });
+
       const isRegular = data!.is_regular_pioneer;
       const isActive = data!.is_active ?? true;
-      const teamName = congregation!.teams.find((team) => team.id === person.team_id)?.name;
+      const teamName = congregation!.teams.find((team) => team.id === person['team_id'])?.name;
       const directory = `Registro de publicadores de la congregación ${congregation!.name.trim()} ${service_year}/${isRegular ? 'Precursores' : isActive ? 'Activos' : 'Inactivos'}`;
       const fileName = `${directory}${isRegular ? '' : `/${teamName}`}/${data!.last_name.trim()} ${data!.first_name.trim()} ${service_year}.pdf`;
       return { fileName, buffer: pdfBuffer };
     };
 
-    const { stream } = await this.zipUtil.generateZip(congregation!.people, getPublisherData);
-    return { zipStream: stream, congregation: congregation!.name };
+    try {
+      const { stream } = await this.zipUtil.generateZip(congregation!.people, getPublisherData);
+      return { zipStream: stream, congregation: congregation!.name };
+    } finally {
+      await browser.close();
+    }
   }
 
   async congregationHome({

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as Handlebars from 'handlebars';
-import puppeteer from 'puppeteer';
+import puppeteer, { Browser } from 'puppeteer';
 import { registerHandlebarsHelpers } from '../helpers/handlebars.helpers';
 
 @Injectable()
@@ -11,7 +11,15 @@ export class PdfUtil {
     registerHandlebarsHelpers();
   }
 
-  async generatePdf({ templateHbs, data }: { templateHbs: string; data: any }): Promise<Buffer> {
+  async generatePdf({
+    templateHbs,
+    data,
+    browser,
+  }: {
+    templateHbs: string;
+    data: any;
+    browser?: Browser;
+  }): Promise<Buffer> {
     // 1. Leer plantilla
     const templatePath = path.join(process.cwd(), templateHbs);
 
@@ -22,13 +30,15 @@ export class PdfUtil {
 
     const html = template(data);
 
-    // 3. Lanzar Puppeteer
-    const browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu', '--disable-dev-shm-usage'],
-    });
+    // 3. Obtener o lanzar Puppeteer
+    const browserInstance =
+      browser ||
+      (await puppeteer.launch({
+        headless: true,
+        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu', '--disable-dev-shm-usage'],
+      }));
 
-    const page = await browser.newPage();
+    const page = await browserInstance.newPage();
 
     await page.setContent(html, {
       waitUntil: 'networkidle0',
@@ -47,7 +57,11 @@ export class PdfUtil {
       },
     });
 
-    await browser.close();
+    await page.close(); // Close page instead of browser if shared
+
+    if (!browser) {
+      await browserInstance.close();
+    }
 
     return Buffer.from(pdfBuffer);
   }
