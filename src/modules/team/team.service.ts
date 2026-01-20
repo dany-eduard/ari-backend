@@ -2,6 +2,8 @@ import { Injectable, BadRequestException, ConflictException } from '@nestjs/comm
 import { PrismaService } from 'src/prisma/prisma.service';
 import { TeamDto } from './dto/team.dto';
 import { formatName } from 'src/utils/formatName';
+import { setFlagLastReport } from 'src/utils/set-flag-last-report.util';
+import { ServiceYearMonths } from 'src/utils/service-year-months.util';
 
 @Injectable()
 export class TeamService {
@@ -35,8 +37,15 @@ export class TeamService {
     });
   }
 
-  findOne(id: number) {
-    return this.prisma.team.findUnique({
+  async findOne(id: number) {
+    const currentMonth = new Date().getMonth() + 1;
+    const currentYear = new Date().getFullYear();
+    const serviceYearMonths = new ServiceYearMonths(currentYear);
+    const serviceYear = serviceYearMonths.getServiceYear(currentMonth);
+
+    console.log(serviceYear);
+
+    const team = await this.prisma.team.findUnique({
       where: { id },
       include: {
         congregation: {
@@ -44,10 +53,32 @@ export class TeamService {
             name: true,
           },
         },
-        people: true,
+        people: {
+          include: {
+            reports: {
+              where: {
+                service_year: serviceYear,
+              },
+              select: {
+                month: true,
+                service_year: true,
+              },
+              take: 1,
+              orderBy: [{ year: 'desc' }, { month: 'desc' }],
+            },
+          },
+        },
       },
       omit: { congregation_id: true },
     });
+
+    setFlagLastReport(team!.people, {
+      moonthOrdered: serviceYearMonths.monthsOrder,
+      currentMonth,
+      serviceYear,
+    });
+
+    return team;
   }
 
   async update(id: number, data: TeamDto) {

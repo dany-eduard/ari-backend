@@ -3,6 +3,8 @@ import { Prisma } from '../../generated/prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { PersonDto } from './dto/person.dto';
 import { formatName } from 'src/utils/formatName';
+import { ServiceYearMonths } from 'src/utils/service-year-months.util';
+import { setFlagLastReport } from 'src/utils/set-flag-last-report.util';
 
 @Injectable()
 export class PersonService {
@@ -25,7 +27,7 @@ export class PersonService {
     }
   }
 
-  findAllByCongregation(congregation_id: number, query: { team_id?: number; is_regular_pioneer?: boolean }) {
+  async findAllByCongregation(congregation_id: number, query: { team_id?: number; is_regular_pioneer?: boolean }) {
     const where: any = { congregation_id };
     if (query.team_id) where.team_id = +query.team_id;
     if (typeof query.is_regular_pioneer === 'string') {
@@ -35,7 +37,30 @@ export class PersonService {
       where.is_regular_pioneer = query.is_regular_pioneer;
     }
 
-    return this.prisma.person.findMany({ where });
+    const currentMonth = new Date().getMonth() + 1;
+    const currentYear = new Date().getFullYear();
+    const serviceYearMonths = new ServiceYearMonths(currentYear);
+    const moonthOrdered = serviceYearMonths.monthsOrder;
+    const serviceYear = serviceYearMonths.getServiceYear(currentMonth);
+
+    const people = await this.prisma.person.findMany({
+      where,
+      include: {
+        reports: {
+          where: {
+            service_year: serviceYear,
+          },
+          select: {
+            month: true,
+            service_year: true,
+          },
+          take: 1,
+          orderBy: [{ year: 'desc' }, { month: 'desc' }],
+        },
+      },
+    });
+
+    return setFlagLastReport(people, { moonthOrdered, currentMonth, serviceYear });
   }
 
   findOne(id: number) {
