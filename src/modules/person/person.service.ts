@@ -167,10 +167,8 @@ export class PersonService {
       });
     }
 
-    console.log(toActivate, toDeactivate);
-
     return {
-      to_activate: toDeactivate, //toActivate,
+      to_activate: toActivate,
       to_deactivate: toDeactivate,
     };
   }

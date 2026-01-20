@@ -43,8 +43,6 @@ export class TeamService {
     const serviceYearMonths = new ServiceYearMonths(currentYear);
     const serviceYear = serviceYearMonths.getServiceYear(currentMonth);
 
-    console.log(serviceYear);
-
     const team = await this.prisma.team.findUnique({
       where: { id },
       include: {
