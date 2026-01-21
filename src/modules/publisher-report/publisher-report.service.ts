@@ -1,5 +1,5 @@
 import { Injectable, BadRequestException, ConflictException } from '@nestjs/common';
-import { Prisma } from '../../generated/prisma/client';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { PublisherReportDto } from './dto/publisher-report.dto';
 import { ServiceYearMonths } from 'src/utils/service-year-months.util';

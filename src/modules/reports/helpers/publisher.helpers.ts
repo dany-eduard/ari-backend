@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PublisherReport } from 'src/generated/prisma/client';
+import { PublisherReport } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ServiceYearMonths } from 'src/utils/service-year-months.util';
 

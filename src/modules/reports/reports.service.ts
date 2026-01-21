@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Person } from 'src/generated/prisma/client';
+import { Person } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { PublisherHelper } from './helpers/publisher.helpers';
 import { PdfUtil } from './utils/pdf.util';

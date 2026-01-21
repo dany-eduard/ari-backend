@@ -2,6 +2,8 @@ import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards } fro
 import { AuthGuard } from '@nestjs/passport';
 import { PublisherReportService } from './publisher-report.service';
 import { PublisherReportDto } from './dto/publisher-report.dto';
+import { LogAction } from '../log-actions/decorators/log-action.decorator';
+import { Action } from '@prisma/client';
 
 @UseGuards(AuthGuard('jwt'))
 @Controller('publisher-reports')
@@ -9,6 +11,7 @@ export class PublisherReportController {
   constructor(private service: PublisherReportService) {}
 
   @Post()
+  @LogAction({ action: Action.CREATE, entity: 'PublisherReport' })
   create(@Body() dto: PublisherReportDto) {
     return this.service.create(dto);
   }
@@ -31,11 +34,13 @@ export class PublisherReportController {
   }
 
   @Put(':id')
+  @LogAction({ action: Action.UPDATE, entity: 'PublisherReport' })
   update(@Param('id') id: string, @Body() dto: PublisherReportDto) {
     return this.service.update(+id, dto);
   }
 
   @Delete(':id')
+  @LogAction({ action: Action.DELETE, entity: 'PublisherReport' })
   remove(@Param('id') id: string) {
     return this.service.remove(+id);
   }

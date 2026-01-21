@@ -9,6 +9,9 @@ import { TeamModule } from './modules/team/team.module';
 import { PersonModule } from './modules/person/person.module';
 import { PublisherReportModule } from './modules/publisher-report/publisher-report.module';
 import { ReportsModule } from './modules/reports/reports.module';
+import { LogActionsModule } from './modules/log-actions/log-actions.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { LogActionsInterceptor } from './modules/log-actions/log-actions.interceptor';
 
 @Module({
   imports: [
@@ -22,8 +25,15 @@ import { ReportsModule } from './modules/reports/reports.module';
     PersonModule,
     PublisherReportModule,
     ReportsModule,
+    LogActionsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LogActionsInterceptor,
+    },
+  ],
 })
 export class AppModule {}

@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -21,6 +20,7 @@ model User {
   first_name      String
   last_name       String
   congregation    Congregation? @relation(fields: [congregation_id], references: [id])
+  logActions      LogAction[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -106,4 +106,31 @@ model PublisherReport {
   updatedAt DateTime @default(now()) @updatedAt
 
   @@unique([person_id, service_year, year, month])
+}
+
+enum Action {
+  CREATE
+  UPDATE
+  DELETE
+}
+
+model LogAction {
+  id        Int     @id @default(autoincrement())
+  user_id   Int
+  action    Action
+  entity    String // Nombre de la tabla/modelo (ej: "Person", "Team", etc.)
+  entity_id Int? // Opcional porque en DELETE podría no existir más
+  before    Json? // Estado anterior (null para CREATE)
+  after     Json? // Estado posterior (null para DELETE)
+  ip        String?
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  // Índices para mejorar rendimiento de consultas
+  @@index([user_id])
+  @@index([entity, entity_id])
+  @@index([action])
+  @@index([createdAt])
 }
