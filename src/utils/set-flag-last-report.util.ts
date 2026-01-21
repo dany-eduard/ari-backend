@@ -6,9 +6,6 @@ export function setFlagLastReport(
     serviceYear: number;
   },
 ) {
-  // if (!people.length) return;
-  console.log(people);
-
   const { moonthOrdered, currentMonth, serviceYear } = input;
 
   for (const person of people) {
