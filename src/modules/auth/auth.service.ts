@@ -22,6 +22,9 @@ export class AuthService {
           first_name: dto.first_name,
           last_name: dto.last_name,
           congregation_id: dto.congregation_id,
+          roles: {
+            connect: dto.roles?.map((role) => ({ name: role })) || [],
+          },
         },
         include: {
           congregation: {
@@ -29,9 +32,10 @@ export class AuthService {
               name: true,
             },
           },
+          roles: true,
         },
       });
-      return this.sign(user as User & { congregation: { name: string } });
+      return this.sign(user as User & { congregation: { name: string }; roles: { name: string }[] });
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
         throw new ConflictException('El correo electrónico ya está en uso');

@@ -1,4 +1,4 @@
-import { IsEmail, IsString, IsStrongPassword } from 'class-validator';
+import { IsArray, IsEmail, IsOptional, IsString, IsStrongPassword } from 'class-validator';
 
 export class RegisterDto {
   @IsEmail()
@@ -20,4 +20,9 @@ export class RegisterDto {
   last_name: string;
 
   congregation_id?: number;
+
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  roles?: string[];
 }
