@@ -22,6 +22,8 @@ model User {
   congregation    Congregation? @relation(fields: [congregation_id], references: [id])
   logActions      LogAction[]
 
+  roles Role[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }
@@ -133,4 +135,25 @@ model LogAction {
   @@index([entity, entity_id])
   @@index([action])
   @@index([createdAt])
+}
+
+model Role {
+  id          Int          @id @default(autoincrement())
+  name        String       @unique
+  description String?
+  permissions Permission[]
+  users       User[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Permission {
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
+  description String?
+  roles       Role[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }

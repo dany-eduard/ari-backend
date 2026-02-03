@@ -12,6 +12,9 @@ import { ReportsModule } from './modules/reports/reports.module';
 import { LogActionsModule } from './modules/log-actions/log-actions.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { LogActionsInterceptor } from './modules/log-actions/log-actions.interceptor';
+import { RolesModule } from './modules/roles/roles.module';
+import { PermissionsModule } from './modules/permissions/permissions.module';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
@@ -26,6 +29,9 @@ import { LogActionsInterceptor } from './modules/log-actions/log-actions.interce
     PublisherReportModule,
     ReportsModule,
     LogActionsModule,
+    RolesModule,
+    PermissionsModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [

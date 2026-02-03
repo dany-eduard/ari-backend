@@ -22,6 +22,9 @@ export class AuthService {
           first_name: dto.first_name,
           last_name: dto.last_name,
           congregation_id: dto.congregation_id,
+          roles: {
+            connect: dto.roles?.map((role) => ({ name: role })) || [],
+          },
         },
         include: {
           congregation: {
@@ -29,9 +32,10 @@ export class AuthService {
               name: true,
             },
           },
+          roles: true,
         },
       });
-      return this.sign(user as User & { congregation: { name: string } });
+      return this.sign(user as User & { congregation: { name: string }; roles: { name: string }[] });
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
         throw new ConflictException('El correo electrónico ya está en uso');
@@ -43,15 +47,15 @@ export class AuthService {
   async validateUser(email: string, password: string, congregation_id: number) {
     const user = await this.prisma.user.findUnique({
       where: { email, congregation_id },
-      include: { congregation: { select: { name: true } } },
+      include: { congregation: { select: { name: true } }, roles: { select: { name: true } } },
     });
     if (!user) return null;
 
     const valid = await bcrypt.compare(password, user.password);
-    return valid ? (user as User & { congregation: { name: string } }) : null;
+    return valid ? (user as User & { congregation: { name: string }; roles: { name: string }[] }) : null;
   }
 
-  sign(user: User & { congregation: { name: string } }) {
+  sign(user: User & { congregation: { name: string }; roles: { name: string }[] }) {
     return {
       access_token: this.jwt.sign({
         sub: user.id,
@@ -67,6 +71,7 @@ export class AuthService {
         congregation_id: user.congregation_id,
         congregation: user.congregation.name,
       },
+      roles: user.roles.map((role) => role.name),
     };
   }
 }
