@@ -30,7 +30,7 @@ export class PermissionsGuard implements CanActivate {
     // Standard NestJS RBAC examples often use 'some' (at least one).
     // Let's assume 'some' for now. If a route needs multiple specific permissions,
     // we might need a different decorator or logic.
-    // But typically for an endpoint like "Create Person", we just need "PERSONS_CREATE".
+    // But typically for an endpoint like "Create Person", we just need "PERSON_CREATE".
 
     return requiredPermissions.some((permission) => user.permissions?.includes(permission));
   }
