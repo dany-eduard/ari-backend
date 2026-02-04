@@ -66,7 +66,14 @@ async function bootstrap() {
     {
       name: 'axiliar del secreatario',
       description: 'Auxiliar del secretario',
-      permissionNames: ['REPORTS_CREATE', 'REPORTS_READ', 'REPORTS_UPDATE', 'REPORTS_DELETE', 'PERSON_READ'],
+      permissionNames: [
+        'REPORTS_CREATE',
+        'REPORTS_READ',
+        'REPORTS_UPDATE',
+        'REPORTS_DELETE',
+        'PERSON_READ',
+        'TEAMS_READ',
+      ],
     },
     {
       name: 'anciano',
