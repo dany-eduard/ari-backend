@@ -3,8 +3,13 @@ import { Person } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { PublisherHelper } from './helpers/publisher.helpers';
 import { PdfUtil } from './utils/pdf.util';
-import { ZipUtil } from './utils/zip.util';
+import { ZipUtil, ZipProgress } from './utils/zip.util';
 import { CongregationHomeResponseDto } from './dto/reports.dto';
+
+interface ZipStartResult {
+  jobId: string;
+  congregation: string;
+}
 
 @Injectable()
 export class ReportsService {
@@ -31,7 +36,7 @@ export class ReportsService {
   }: {
     congregation_id: number;
     service_year: number;
-  }) {
+  }): Promise<ZipStartResult> {
     const congregation = await this.prisma.congregation.findUnique({
       where: { id: +congregation_id },
       include: {
@@ -53,12 +58,6 @@ export class ReportsService {
       },
     });
 
-    const puppeteer = await import('puppeteer');
-    const browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu', '--disable-dev-shm-usage'],
-    });
-
     const getPublisherData = async (person: Person) => {
       try {
         const data = this.publisherHelper.processPublisherData(person, service_year);
@@ -69,8 +68,7 @@ export class ReportsService {
         const pdfBuffer = await this.pdfUtil.generatePdf({
           templateHbs: 'src/modules/reports/templates/publisher-report_S-21-S_v11.23.html',
           data: formattedData,
-          browser,
-          timeout: 120000, // 2 minutes timeout for production
+          timeout: 120000,
         });
 
         const isRegular = data!.is_regular_pioneer;
@@ -81,19 +79,31 @@ export class ReportsService {
 
         console.log(`✓ PDF generated successfully for: ${data!.first_name} ${data!.last_name}`);
 
-        return { fileName, buffer: pdfBuffer };
+        return { buffer: pdfBuffer, fileName };
       } catch (error) {
         console.error(`✗ Failed to generate PDF for person ID ${person.id}:`, error.message);
-        throw error; // Re-throw to let zip generation handle it
+        throw error;
       }
     };
 
-    try {
-      const { stream } = await this.zipUtil.generateZip(congregation!.people, getPublisherData);
-      return { zipStream: stream, congregation: congregation!.name };
-    } finally {
-      await browser.close();
-    }
+    const jobId = await this.zipUtil.startZipGeneration(congregation!.people, getPublisherData);
+    return { jobId, congregation: congregation!.name };
+  }
+
+  getZipProgress(jobId: string): ZipProgress | null {
+    return this.zipUtil.getProgress(jobId);
+  }
+
+  getZipBuffer(jobId: string): Buffer | null {
+    return this.zipUtil.getZipBuffer(jobId);
+  }
+
+  clearAllZipJobs(): number {
+    return this.zipUtil.clearAllJobs();
+  }
+
+  getAllZipJobs(): ZipProgress[] {
+    return this.zipUtil.getAllJobs();
   }
 
   async congregationHome({
