@@ -2,9 +2,9 @@
   "name": "ari-backend",
   "version": "0.1.0",
   "description": "",
-  "author": "",
+  "author": "Daniel Eduardo Almagro <danyeduar17@gmail.com>",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "GPL-3.0-only",
   "scripts": {
     "build": "prisma generate && nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",

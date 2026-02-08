@@ -1,98 +1,201 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# ARI Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+API back-end para gestionar congregaciones, grupos, personas y reportes de publicadores. Desarrollado con NestJS y Prisma sobre PostgreSQL. Incluye generación de PDFs y archivos ZIP para reportes, y auditoría de acciones de usuario.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Tabla de contenidos
 
-## Description
+- [Resumen](#resumen)
+- [Tecnologías](#tecnologías)
+- [Requisitos](#requisitos)
+- [Instalación](#instalación)
+- [Configuración](#configuración)
+- [Uso y ejecución](#uso-y-ejecución)
+- [Estructura del proyecto](#estructura-del-proyecto)
+- [Entidades y Modelo de datos](#entidades-y-modelo-de-datos)
+- [Migrations y Seeds](#migrations-y-seeds)
+- [Pruebas](#pruebas)
+- [Contribución](#contribución)
+- [Licencia](#licencia)
+- [Contacto](#contacto)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Resumen
 
-## Project setup
+- Backend construido con NestJS para ofrecer una API REST que gestiona:
+  - Congregaciones, grupos y personas
+  - Usuarios con autenticación y roles/permisos
+  - Informes de publicadores por año/mes, con generación de PDFs y ZIPs
+- Modelo de datos gestionado con Prisma y PostgreSQL.
+- Soporte de seguridad mediante JWT y validación de datos en DTOs.
 
-```bash
-$ npm install
-```
+## Tecnologías
 
-## Compile and run the project
+- Node.js
+- NestJS
+- TypeScript
+- Prisma ORM (PostgreSQL)
+- PostgreSQL (pg)
+- Puppeteer (generación de PDFs)
+- Handlebars (plantillas para PDFs)
+- Archiver (generación de ZIPs)
+- Bcrypt (hash de contraseñas)
+- Passport y JWT (autenticación)
+- RxJS (NestJS)
 
-```bash
-# development
-$ npm run start
+## Requisitos
 
-# watch mode
-$ npm run start:dev
+- Node.js (versión recomendada: 20+ según tu entorno)
+- PostgreSQL funcionando y accesible
+- Git (opcional, para clonar y gestionar el código)
 
-# production mode
-$ npm run start:prod
-```
+## Instalación
 
-## Run tests
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+1. Clona el repositorio y accede a su carpeta:
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+git clone git@github.com:dany-eduard/ari-backend.git
+cd ari-backend
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+2. Instala las dependencias:
 
-## Resources
+```bash
+npm install
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+3. Configura las variables de entorno (archivo `.env`):
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```env
+DATABASE_URL=postgresql://user:password@localhost:5432/ari
+FRONTEND_URL=http://localhost:5173
+PORT=3000
+JWT_SECRET=tu_secreto
+JWT_EXPIRES_IN=1d
+NODE_ENV=development
+```
 
-## Support
+Opcional: puedes usar un archivo `.env.example` como plantilla.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Configuración de base de datos
 
-## Stay in touch
+- Prisma maneja el esquema de la BD y las migraciones.
+- Para aplicar migraciones en desarrollo, ejecuta:
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```bash
+npx prisma migrate dev
+```
 
-## License
+- Para producción (despliegues), usa:
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+```bash
+npx prisma migrate deploy
+```
+
+- Genera el cliente de Prisma:
+
+```bash
+npm run build
+```
+
+- Seed de datos (datos iniciales):
+
+```bash
+npx prisma db seed
+```
+
+## Uso y ejecución
+
+- Modo desarrollo (con recarga en cambios):
+
+```bash
+npm run start:dev
+```
+
+- Modo producción (compilado):
+
+```bash
+npm run build
+npm run start:prod
+```
+
+- Pruebas:
+
+```bash
+npm test
+npm run test:cov
+```
+
+- Formato y linting:
+
+```bash
+npm run format
+npm run lint
+```
+
+## Estructura del proyecto
+
+```text
+.
+├── prisma/
+│   ├── migrations/          # Historia de migraciones de la BD
+│   ├── seeds/               # Scripts de seeds para datos de ejemplo
+│   └── schema.prisma        # Modelo de datos (User, Congregation, Team, Person, etc.)
+└── src/
+    ├── app.module.ts        # Módulo raíz que importa todos los módulos de negocio
+    ├── main.ts              # Punto de entrada de la aplicación
+    └── modules/
+        ├── auth/            # Autenticación (registro, login, perfil)
+        ├── congregation/    # Gestión de congregaciones
+        ├── log-actions/     # Auditoría de acciones del sistema
+        ├── permissions/     # Permisos
+        ├── person/          # Gestión de personas
+        ├── publisher-report/ # Gestión de informes de publicadores
+        ├── reports/         # Generación de PDFs y ZIPs de informes
+        ├── roles/           # Roles y permisos
+        ├── team/            # Gestión de grupos
+        └── users/           # Usuarios y asignación de roles
+```
+
+# Modelos y entidades (resumen)
+
+- `User`: usuario de la aplicación, relacionado con `Congregation` y `Roles`
+- `Congregation`: agrupación de usuarios, con código y relaciones
+- `Team`: grupo dentro de una `Congregation`
+- `Person`: individuo perteneciente a una `Congregation` y a un `Team`
+- `PublisherReport`: informe de publicadores por año/mes
+- `LogAction`: auditoría de acciones de usuarios
+- `Role/Permission`: sistema de control de acceso y permisos por roles
+
+## Migrations y Seeds
+
+- Las migraciones se encuentran en `prisma/migrations` y permiten versionar el esquema de la BD.
+- Seeds útiles para arrancar datos de ejemplo se encuentran en `prisma/seeds`. Estos pueden usarse para populación inicial de datos durante el desarrollo.
+
+## Pruebas
+
+- Las pruebas usan Jest y siguen la convención de archivos `*.spec.ts` dentro de `src`. Ejecuta `npm test` para correr unit tests y `npm run test:cov` para cobertura.
+
+## Seguridad y buenas prácticas
+
+- Contraseñas se almacenan de forma segura con bcrypt.
+- Autenticación basada en JWT (Passport + JWT Strategy).
+- CORS configurado para permitir solo el origen del frontend indicado en `FRONTEND_URL`.
+- Las rutas y operaciones sensibles deben incluir autorización y validación de datos (DTOs con class-validator).
+
+## Compatibilidad y despliegue
+
+- El proyecto está preparado para desplegarse en entornos con Node.js y PostgreSQL, y puede integrarse con herramientas modernas de despliegue.
+- Las variables de entorno deben estar definidas en el entorno de ejecución; si se desea, se pueden añadir contenedores docker o servicios en la nube para el DB.
+
+## Contribución
+
+- Si quieres contribuir, por favor abre un PR con una breve descripción de los cambios y añade pruebas cuando aplique.
+- Asegúrate de ejecutar lint y pruebas antes de enviar cambios.
+
+## Licencia
+
+Este proyecto está licenciado bajo la GNU General Public License v3.0 (GPL-3.0). Consulta el archivo LICENSE en la raíz del repositorio para obtener el texto completo de la licencia.
+
+## Contacto
+
+- Equipo de desarrollo: Daniel Eduardo Almagro <danyeduar17@gmail.com>
+- Compartir feedback: correos o canales de comunicación del proyecto
