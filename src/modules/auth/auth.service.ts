@@ -32,10 +32,24 @@ export class AuthService {
               name: true,
             },
           },
-          roles: true,
+          roles: {
+            include: {
+              permissions: true,
+            },
+          },
         },
       });
-      return this.sign(user as User & { congregation: { name: string }; roles: { name: string }[] });
+
+      // Flatten permissions for the response
+      const permissions = new Set<string>();
+      user.roles?.forEach((role) => {
+        role.permissions?.forEach((p) => permissions.add(p.name));
+      });
+
+      return this.sign({
+        ...user,
+        permissions: Array.from(permissions),
+      });
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
         throw new ConflictException('El correo electrónico ya está en uso');
@@ -47,15 +61,35 @@ export class AuthService {
   async validateUser(email: string, password: string, congregation_id: number) {
     const user = await this.prisma.user.findUnique({
       where: { email, congregation_id },
-      include: { congregation: { select: { name: true } }, roles: { select: { name: true } } },
+      include: {
+        congregation: { select: { name: true } },
+        roles: {
+          include: {
+            permissions: {
+              select: { name: true },
+            },
+          },
+        },
+      },
     });
     if (!user) return null;
 
     const valid = await bcrypt.compare(password, user.password);
-    return valid ? (user as User & { congregation: { name: string }; roles: { name: string }[] }) : null;
+    if (!valid) return null;
+
+    // Flatten permissions
+    const permissions = new Set<string>();
+    user.roles.forEach((role) => {
+      role.permissions.forEach((p) => permissions.add(p.name));
+    });
+
+    return {
+      ...user,
+      permissions: Array.from(permissions),
+    };
   }
 
-  sign(user: User & { congregation: { name: string }; roles: { name: string }[] }) {
+  sign(user: any) {
     return {
       access_token: this.jwt.sign({
         sub: user.id,
@@ -70,8 +104,9 @@ export class AuthService {
         last_name: user.last_name,
         congregation_id: user.congregation_id,
         congregation: user.congregation.name,
+        permissions: user.permissions,
+        roles: user.roles.map((role) => role.name),
       },
-      roles: user.roles.map((role) => role.name),
     };
   }
 }
