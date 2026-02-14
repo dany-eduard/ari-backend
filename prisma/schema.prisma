@@ -26,6 +26,7 @@ model User {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+  deletedAt DateTime?
 }
 
 model Congregation {
@@ -38,6 +39,7 @@ model Congregation {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+  deletedAt DateTime?
 
   @@unique([name, code])
 }
@@ -51,6 +53,7 @@ model Team {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+  deletedAt DateTime?
 
   @@unique([name, congregation_id])
 }
@@ -86,6 +89,7 @@ model Person {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+  deletedAt DateTime?
 
   @@unique([congregation_id, first_name, last_name, birth_date, sex])
 }
@@ -106,6 +110,7 @@ model PublisherReport {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+  deletedAt DateTime?
 
   @@unique([person_id, service_year, year, month])
 }
@@ -129,6 +134,7 @@ model LogAction {
   user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
+  deletedAt DateTime?
 
   // Índices para mejorar rendimiento de consultas
   @@index([user_id])
@@ -146,6 +152,7 @@ model Role {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+  deletedAt DateTime?
 }
 
 model Permission {
@@ -156,4 +163,5 @@ model Permission {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+  deletedAt DateTime?
 }
