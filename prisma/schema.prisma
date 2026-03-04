@@ -24,8 +24,8 @@ model User {
 
   roles Role[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
   deletedAt DateTime?
 }
 
@@ -37,8 +37,8 @@ model Congregation {
   teams  Team[]
   people Person[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
   deletedAt DateTime?
 
   @@unique([name, code])
@@ -51,8 +51,8 @@ model Team {
   congregation    Congregation @relation(fields: [congregation_id], references: [id])
   people          Person[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
   deletedAt DateTime?
 
   @@unique([name, congregation_id])
@@ -87,8 +87,8 @@ model Person {
   team         Team              @relation(fields: [team_id], references: [id])
   reports      PublisherReport[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
   deletedAt DateTime?
 
   @@unique([congregation_id, first_name, last_name, birth_date, sex])
@@ -108,8 +108,8 @@ model PublisherReport {
 
   person Person @relation(fields: [person_id], references: [id])
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
   deletedAt DateTime?
 
   @@unique([person_id, service_year, year, month])
@@ -122,18 +122,19 @@ enum Action {
 }
 
 model LogAction {
-  id        Int     @id @default(autoincrement())
-  user_id   Int
-  action    Action
-  entity    String // Nombre de la tabla/modelo (ej: "Person", "Team", etc.)
-  entity_id Int? // Opcional porque en DELETE podría no existir más
-  before    Json? // Estado anterior (null para CREATE)
-  after     Json? // Estado posterior (null para DELETE)
-  ip        String?
+  id              Int     @id @default(autoincrement())
+  congregation_id Int     @default(0)
+  user_id         Int
+  action          Action
+  entity          String // Nombre de la tabla/modelo (ej: "Person", "Team", etc.)
+  entity_id       Int? // Opcional porque en DELETE podría no existir más
+  before          Json? // Estado anterior (null para CREATE)
+  after           Json? // Estado posterior (null para DELETE)
+  ip              String?
 
   user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
   deletedAt DateTime?
 
   // Índices para mejorar rendimiento de consultas
@@ -141,6 +142,7 @@ model LogAction {
   @@index([entity, entity_id])
   @@index([action])
   @@index([createdAt])
+  @@index([congregation_id])
 }
 
 model Role {
@@ -150,8 +152,8 @@ model Role {
   permissions Permission[]
   users       User[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
   deletedAt DateTime?
 }
 
@@ -161,7 +163,7 @@ model Permission {
   description String?
   roles       Role[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
   deletedAt DateTime?
 }

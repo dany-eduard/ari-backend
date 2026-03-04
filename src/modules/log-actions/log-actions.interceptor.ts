@@ -52,6 +52,7 @@ export class LogActionsInterceptor implements NestInterceptor {
 
         try {
           await this.logService.create({
+            congregation_id: user.congregation_id,
             user_id: user.id,
             action: metadata.action,
             entity: metadata.entity,
