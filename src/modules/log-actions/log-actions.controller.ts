@@ -8,7 +8,7 @@ export class LogActionsController {
   constructor(private readonly logActionsService: LogActionsService) {}
 
   @Get()
-  findAll(@Query() query: { page?: number; limit?: number }) {
+  findAll(@Query() query: { page?: number; limit?: number; congregation_id?: number }) {
     return this.logActionsService.findAll(query);
   }
 }

@@ -7,6 +7,7 @@ export class LogActionsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(data: {
+    congregation_id: number;
     user_id: number;
     action: Action;
     entity: string;
@@ -17,6 +18,7 @@ export class LogActionsService {
   }) {
     return this.prisma.logAction.create({
       data: {
+        congregation_id: data.congregation_id,
         user_id: data.user_id,
         action: data.action,
         entity: data.entity,
@@ -28,13 +30,16 @@ export class LogActionsService {
     });
   }
 
-  async findAll(query: { page?: number; limit?: number }) {
+  async findAll(query: { page?: number; limit?: number; congregation_id?: number }) {
     const page = Number(query.page) || 1;
     const limit = Number(query.limit) || 5;
     const skip = (page - 1) * limit;
 
+    const where = query.congregation_id ? { congregation_id: Number(query.congregation_id) } : {};
+
     const [data, total] = await Promise.all([
       this.prisma.logAction.findMany({
+        where,
         skip,
         take: limit,
         orderBy: { createdAt: 'desc' },
@@ -54,7 +59,7 @@ export class LogActionsService {
           },
         },
       }),
-      this.prisma.logAction.count(),
+      this.prisma.logAction.count({ where }),
     ]);
 
     await Promise.all(
