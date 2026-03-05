@@ -46,7 +46,7 @@ async function bootstrap() {
       permissionNames: ['ADMIN'],
     },
     {
-      name: 'secreatario',
+      name: 'secretario',
       description: 'Secretario de congregación',
       permissionNames: [
         'PERSON_CREATE',
@@ -64,7 +64,7 @@ async function bootstrap() {
       ],
     },
     {
-      name: 'axiliar del secreatario',
+      name: 'auxiliar del secretario',
       description: 'Auxiliar del secretario',
       permissionNames: [
         'REPORTS_CREATE',
