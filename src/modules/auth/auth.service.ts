@@ -13,6 +13,35 @@ export class AuthService {
   ) {}
 
   async register(dto: RegisterDto) {
+    // Validate role constraints per congregation
+    if (dto.roles && dto.roles.length > 0) {
+      const requestedRolesNames = dto.roles;
+      const uniqueRoles = ['admin', 'secretario'];
+      const rolesToValidate = requestedRolesNames.filter((role) => uniqueRoles.includes(role));
+      const conflictingRoles = await this.prisma.role.findMany({
+        where: {
+          name: { in: rolesToValidate },
+          users: {
+            some: {
+              congregation_id: dto.congregation_id,
+              deletedAt: null,
+            },
+          },
+        },
+        select: {
+          name: true,
+          description: true,
+        },
+      });
+
+      if (conflictingRoles.length > 0) {
+        const roleNames = conflictingRoles.map((r) => r.description || r.name).join(', ');
+        throw new ConflictException(
+          `Ya existe un usuario con los siguientes roles en esta congregación: ${roleNames}. Solo se permite uno por congregación.`,
+        );
+      }
+    }
+
     const hash = await bcrypt.hash(dto.password, 10);
     try {
       const user = await this.prisma.user.create({

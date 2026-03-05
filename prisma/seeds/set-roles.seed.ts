@@ -10,8 +10,8 @@ async function bootstrap() {
   const prisma = app.get(PrismaService);
 
   const userMapping = {
-    'daniel@ari.com': 'secreatario',
-    'gerson@ari.com': 'axiliar del secreatario',
+    'daniel@ari.com': 'secretario',
+    'gerson@ari.com': 'auxiliar del secretario',
   };
 
   const users = await prisma.user.findMany({
