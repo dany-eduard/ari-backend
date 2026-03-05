@@ -1,9 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CongregationService } from './congregation.service';
 import { CongregationDto } from './dto/congregation.dto';
 import { LogAction } from '../log-actions/decorators/log-action.decorator';
 import { Action } from '@prisma/client';
+import { CongregationQueryDto } from './dto/congregation-query.dto';
 
 @Controller('congregations')
 export class CongregationController {
@@ -17,8 +18,8 @@ export class CongregationController {
   }
 
   @Get()
-  findAll() {
-    return this.service.findAll();
+  findAll(@Query() query: CongregationQueryDto) {
+    return this.service.findAll(query);
   }
 
   @UseGuards(AuthGuard('jwt'))
