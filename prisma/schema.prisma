@@ -91,7 +91,7 @@ model Person {
   updatedAt DateTime  @default(now()) @updatedAt
   deletedAt DateTime?
 
-  @@unique([congregation_id, first_name, last_name, birth_date, sex])
+  @@unique([congregation_id, first_name, last_name, birth_date, sex, deletedAt])
 }
 
 model PublisherReport {

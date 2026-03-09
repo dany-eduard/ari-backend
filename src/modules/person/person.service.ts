@@ -18,6 +18,7 @@ export class PersonService {
       if (data.baptism_date) data.baptism_date = new Date(data.baptism_date);
       return await this.prisma.person.create({ data });
     } catch (error) {
+      console.error(error);
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
           throw new ConflictException('Ya existe una persona con estos datos en la congregación');
