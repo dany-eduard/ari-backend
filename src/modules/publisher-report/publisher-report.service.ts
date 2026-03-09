@@ -14,7 +14,12 @@ export class PublisherReportService {
       const serviceYearMonths = new ServiceYearMonths(data.year);
       const serviceYearMonth = serviceYearMonths.months.find((month) => month.month === data.month);
 
-      const isActive = await isPublisherActive(data.person_id, this.prisma);
+      // const isActive = await isPublisherActive(data.person_id, this.prisma);
+      const publisher = await this.prisma.person.findUnique({
+        where: { id: data.person_id },
+        select: { is_active: true },
+      });
+      const isActive = publisher.is_active;
 
       if (data.participated && !isActive) {
         throw new BadRequestException('El publicador no esta activo');
