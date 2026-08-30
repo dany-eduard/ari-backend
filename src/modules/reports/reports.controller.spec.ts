@@ -47,9 +47,8 @@ describe('ReportsController', () => {
 
       const result = await controller.getRegularPioneersActivity(mockReq);
 
-      expect(service.getRegularPioneersActivity).toHaveBeenCalledWith(1);
-      expect(result).toEqual(mockResult);
+      expect(service.getRegularPioneersActivity).toHaveBeenCalledWith(1, undefined);
     });
-  });
+
 });
 

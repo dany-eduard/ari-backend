@@ -181,6 +181,38 @@ describe('ReportsService', () => {
       expect(result.pioneers).toHaveLength(1);
       expect(result.ranking).toHaveLength(0);
     });
+
+    it('should query all months without month cutoff when querying a past service year', async () => {
+      const mockPeople = [
+        {
+          id: 1,
+          first_name: 'Pioneer',
+          last_name: 'Past',
+          reports: [{ id: 101, hours: 600, month: 8, year: 2024 }],
+        },
+      ];
+
+      jest.spyOn(mockPrismaService.person, 'findMany').mockResolvedValue(mockPeople);
+
+      const result = await service.getRegularPioneersActivity(1, 2024);
+
+      expect(prisma.person.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          include: {
+            reports: {
+              where: {
+                service_year: 2024,
+                deletedAt: null,
+              },
+              select: expect.any(Object),
+            },
+          },
+        }),
+      );
+
+      expect(result.pioneers).toHaveLength(1);
+      expect(result.ranking).toHaveLength(1);
+    });
   });
 });
 

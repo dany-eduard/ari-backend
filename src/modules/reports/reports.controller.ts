@@ -138,8 +138,8 @@ export class ReportsController {
   @Get('regular-pioneers-activity')
   @UseGuards(AuthGuard('jwt'), RolesGuard, PermissionsGuard)
   @Permissions('REPORTS_READ')
-  async getRegularPioneersActivity(@Req() req: any) {
+  async getRegularPioneersActivity(@Req() req: any, @Query('service_year') service_year?: string) {
     const congregation_id = req.user.congregation_id;
-    return this.service.getRegularPioneersActivity(+congregation_id);
+    return this.service.getRegularPioneersActivity(+congregation_id, service_year ? +service_year : undefined);
   }
 }

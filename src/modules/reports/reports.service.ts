@@ -193,12 +193,33 @@ export class ReportsService {
     return response;
   }
 
-  async getRegularPioneersActivity(congregation_id: number): Promise<RegularPioneersActivityResponseDto> {
+  async getRegularPioneersActivity(
+    congregation_id: number,
+    targetServiceYear?: number,
+  ): Promise<RegularPioneersActivityResponseDto> {
     const now = new Date();
     const currentMonth = now.getMonth() + 1;
     const currentYear = now.getFullYear();
     const serviceYearMonths = new ServiceYearMonths(currentYear);
-    const serviceYear = serviceYearMonths.getServiceYear(currentMonth);
+    const currentServiceYear = serviceYearMonths.getServiceYear(currentMonth);
+
+    const serviceYear = targetServiceYear ? +targetServiceYear : currentServiceYear;
+    const isPastServiceYear = serviceYear < currentServiceYear;
+
+    const reportsWhere: any = {
+      service_year: serviceYear,
+      deletedAt: null,
+    };
+
+    if (!isPastServiceYear) {
+      reportsWhere.OR = [
+        { year: { lt: currentYear } },
+        {
+          year: currentYear,
+          month: { lte: currentMonth },
+        },
+      ];
+    }
 
     const people = await this.prisma.person.findMany({
       where: {
@@ -209,17 +230,7 @@ export class ReportsService {
       },
       include: {
         reports: {
-          where: {
-            service_year: serviceYear,
-            deletedAt: null,
-            OR: [
-              { year: { lt: currentYear } },
-              {
-                year: currentYear,
-                month: { lte: currentMonth },
-              },
-            ],
-          },
+          where: reportsWhere,
           select: {
             id: true,
             hours: true,
