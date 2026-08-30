@@ -4,7 +4,8 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { PublisherHelper } from './helpers/publisher.helpers';
 import { PdfUtil } from './utils/pdf.util';
 import { ZipUtil, ZipProgress } from './utils/zip.util';
-import { CongregationHomeResponseDto } from './dto/reports.dto';
+import { CongregationHomeResponseDto, RegularPioneersActivityResponseDto } from './dto/reports.dto';
+import { ServiceYearMonths } from 'src/utils/service-year-months.util';
 
 interface ZipStartResult {
   jobId: string;
@@ -190,6 +191,78 @@ export class ReportsService {
     };
 
     return response;
+  }
+
+  async getRegularPioneersActivity(congregation_id: number): Promise<RegularPioneersActivityResponseDto> {
+    const now = new Date();
+    const currentMonth = now.getMonth() + 1;
+    const currentYear = now.getFullYear();
+    const serviceYearMonths = new ServiceYearMonths(currentYear);
+    const serviceYear = serviceYearMonths.getServiceYear(currentMonth);
+
+    const people = await this.prisma.person.findMany({
+      where: {
+        congregation_id: +congregation_id,
+        is_regular_pioneer: true,
+        is_active: true,
+        deletedAt: null,
+      },
+      include: {
+        reports: {
+          where: {
+            service_year: serviceYear,
+            deletedAt: null,
+            OR: [
+              { year: { lt: currentYear } },
+              {
+                year: currentYear,
+                month: { lte: currentMonth },
+              },
+            ],
+          },
+          select: {
+            id: true,
+            hours: true,
+            month: true,
+            year: true,
+          },
+        },
+      },
+      orderBy: [{ last_name: 'asc' }, { first_name: 'asc' }],
+    });
+
+    const pioneers = people.map((person) => {
+      const reportedMonths = person.reports.length;
+      const currentTotalHours = person.reports.reduce((sum, r) => sum + (r.hours || 0), 0);
+      const monthlyAverageHours = reportedMonths > 0 ? Number((currentTotalHours / reportedMonths).toFixed(1)) : 0;
+
+      return {
+        id: person.id,
+        firstName: person.first_name,
+        lastName: person.last_name,
+        reportedMonths,
+        monthlyAverageHours,
+        currentTotalHours,
+      };
+    });
+
+    pioneers.sort((a, b) => b.currentTotalHours - a.currentTotalHours || a.lastName.localeCompare(b.lastName));
+
+    const ranking = pioneers
+      .filter((p) => p.currentTotalHours > 560)
+      .slice(0, 5)
+      .map((p, index) => ({
+        position: index + 1,
+        id: p.id,
+        firstName: p.firstName,
+        lastName: p.lastName,
+        currentTotalHours: p.currentTotalHours,
+      }));
+
+    return {
+      pioneers,
+      ranking,
+    };
   }
 
   private calculateSummary(people: any[]) {

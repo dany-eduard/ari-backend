@@ -1,7 +1,11 @@
 import express from 'express';
-import { Controller, Get, Post, Param, Query, Res, StreamableFile, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Param, Query, Res, Req, StreamableFile, HttpException, HttpStatus, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { ReportsService } from './reports.service';
 import { PdfUtil } from './utils/pdf.util';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { PermissionsGuard } from '../auth/guards/permissions.guard';
+import { Permissions } from '../auth/decorators/permissions.decorator';
 
 @Controller('reports')
 export class ReportsController {
@@ -129,5 +133,13 @@ export class ReportsController {
     @Query('month') month: number,
   ) {
     return this.service.congregationHome({ congregation_id, year: +year, month: +month });
+  }
+
+  @Get('regular-pioneers-activity')
+  @UseGuards(AuthGuard('jwt'), RolesGuard, PermissionsGuard)
+  @Permissions('REPORTS_READ')
+  async getRegularPioneersActivity(@Req() req: any) {
+    const congregation_id = req.user.congregation_id;
+    return this.service.getRegularPioneersActivity(+congregation_id);
   }
 }

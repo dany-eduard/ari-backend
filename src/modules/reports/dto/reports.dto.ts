@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsNumber, ValidateNested } from 'class-validator';
+import { IsNumber, IsString, ValidateNested } from 'class-validator';
 
 export class CongregationHomeResponseDto {
   @IsNumber()
@@ -68,3 +68,51 @@ class AuxiliaryPioneerSummaryDto {
   @IsNumber()
   hours: number;
 }
+
+export class RegularPioneerActivityItemDto {
+  @IsNumber()
+  id: number;
+
+  @IsString()
+  firstName: string;
+
+  @IsString()
+  lastName: string;
+
+  @IsNumber()
+  reportedMonths: number;
+
+  @IsNumber()
+  monthlyAverageHours: number;
+
+  @IsNumber()
+  currentTotalHours: number;
+}
+
+export class RegularPioneerRankingItemDto {
+  @IsNumber()
+  position: number;
+
+  @IsNumber()
+  id: number;
+
+  @IsString()
+  firstName: string;
+
+  @IsString()
+  lastName: string;
+
+  @IsNumber()
+  currentTotalHours: number;
+}
+
+export class RegularPioneersActivityResponseDto {
+  @ValidateNested({ each: true })
+  @Type(() => RegularPioneerActivityItemDto)
+  pioneers: RegularPioneerActivityItemDto[];
+
+  @ValidateNested({ each: true })
+  @Type(() => RegularPioneerRankingItemDto)
+  ranking: RegularPioneerRankingItemDto[];
+}
+
