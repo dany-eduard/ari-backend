@@ -49,7 +49,7 @@ export class PersonService {
       include: {
         reports: {
           where: {
-            service_year: serviceYear,
+            OR: [{ service_year: serviceYear }, ...(currentMonth === 9 ? [{ service_year: serviceYear - 1 }] : [])],
           },
           select: {
             month: true,
