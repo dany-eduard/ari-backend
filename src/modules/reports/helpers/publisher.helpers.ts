@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PublisherReport } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ServiceYearMonths } from 'src/utils/service-year-months.util';
@@ -7,9 +7,9 @@ import { ServiceYearMonths } from 'src/utils/service-year-months.util';
 export class PublisherHelper {
   constructor(private prisma: PrismaService) {}
 
-  async getPublisherData(person_id: number, service_year: number) {
-    const person = await this.prisma.person.findUnique({
-      where: { id: person_id },
+  async getPublisherData(person_id: number, service_year: number, congregation_id?: number) {
+    const person = await this.prisma.person.findFirst({
+      where: { id: person_id, ...(congregation_id ? { congregation_id } : {}) },
       omit: {
         congregation_id: true,
         team_id: true,
@@ -25,6 +25,10 @@ export class PublisherHelper {
       },
     });
 
+    if (!person) {
+      throw new NotFoundException('Publicador no encontrado');
+    }
+
     return this.processPublisherData(person, service_year);
   }
 
@@ -35,19 +39,11 @@ export class PublisherHelper {
     let totalHours = 0;
 
     if (person?.birth_date) {
-      person.birth_date = new Date(person.birth_date).toLocaleDateString('es-CO', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      }) as unknown as Date;
+      person.birth_date = this.formatDateOnly(person.birth_date) as unknown as Date;
     }
 
     if (person?.baptism_date) {
-      person.baptism_date = new Date(person.baptism_date).toLocaleDateString('es-CO', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      }) as unknown as Date;
+      person.baptism_date = this.formatDateOnly(person.baptism_date) as unknown as Date;
     }
 
     if (person?.reports) {
@@ -85,6 +81,17 @@ export class PublisherHelper {
     }
 
     return person;
+  }
+
+  // Date-only values are stored at UTC midnight, so they must be formatted in UTC
+  // to avoid shifting a day when the server timezone is not UTC.
+  private formatDateOnly(value: Date | string): string {
+    return new Date(value).toLocaleDateString('es-CO', {
+      timeZone: 'UTC',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
   }
 
   private normalizeMonths(months: PublisherReport[]) {

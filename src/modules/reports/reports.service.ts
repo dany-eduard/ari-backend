@@ -21,8 +21,16 @@ export class ReportsService {
     private zipUtil: ZipUtil,
   ) {}
 
-  async publisherServiceYear({ person_id, service_year }: { person_id: number; service_year: number }) {
-    const data = await this.publisherHelper.getPublisherData(+person_id, +service_year);
+  async publisherServiceYear({
+    person_id,
+    service_year,
+    congregation_id,
+  }: {
+    person_id: number;
+    service_year: number;
+    congregation_id?: number;
+  }) {
+    const data = await this.publisherHelper.getPublisherData(+person_id, +service_year, congregation_id);
     const formattedData = this.publisherHelper.mapToPdfData({ ...data, service_year });
     const pdfBuffer = await this.pdfUtil.generatePdf({
       templateHbs: 'src/modules/reports/templates/publisher-report_S-21-S_v11.23.html',

@@ -49,6 +49,6 @@ describe('ReportsController', () => {
 
       expect(service.getRegularPioneersActivity).toHaveBeenCalledWith(1, undefined);
     });
-
+  });
 });
 

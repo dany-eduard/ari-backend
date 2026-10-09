@@ -110,12 +110,19 @@ export class ReportsController {
   }
 
   @Get('publisher/:person_id/service-year/:service_year')
+  @UseGuards(AuthGuard('jwt'), RolesGuard, PermissionsGuard)
+  @Permissions('REPORTS_READ')
   async publisherServiceYear(
     @Param('person_id') person_id: number,
     @Param('service_year') service_year: number,
+    @Req() req: { user?: { congregation_id?: number } },
     @Res({ passthrough: true }) res: express.Response,
   ): Promise<StreamableFile> {
-    const { pdfBuffer, data } = await this.service.publisherServiceYear({ person_id, service_year });
+    const { pdfBuffer, data } = await this.service.publisherServiceYear({
+      person_id,
+      service_year,
+      congregation_id: req.user?.congregation_id,
+    });
 
     res.set({
       'Content-Type': 'application/pdf',
